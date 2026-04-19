@@ -1,4 +1,17 @@
-export default function QuotePage() {
+import { submitQuoteRequest } from "./actions";
+
+interface QuotePageProps {
+  searchParams?: Promise<{
+    success?: string;
+    error?: string;
+  }>;
+}
+
+export default async function QuotePage({ searchParams }: QuotePageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const success = resolvedSearchParams?.success === "1";
+  const error = resolvedSearchParams?.error;
+
   return (
     <section className="mx-auto max-w-3xl px-6 py-16">
       <div className="max-w-2xl">
@@ -10,11 +23,26 @@ export default function QuotePage() {
         </h1>
         <p className="mt-4 text-zinc-600">
           Share a few details and we’ll help match the right audio, lighting, or
-          AV rental package for your event.
+          AV rental setup for your event.
         </p>
       </div>
 
-      <form className="mt-10 space-y-8 rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
+      {success ? (
+        <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 px-5 py-4 text-sm text-green-800">
+          Thanks, your quote request has been submitted. We’ll be in touch soon.
+        </div>
+      ) : null}
+
+      {error ? (
+        <div className="mt-8 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-800">
+          {error}
+        </div>
+      ) : null}
+
+      <form
+        action={submitQuoteRequest}
+        className="mt-10 space-y-8 rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm"
+      >
         <div className="grid gap-6 md:grid-cols-2">
           <div>
             <label
@@ -29,6 +57,7 @@ export default function QuotePage() {
               type="text"
               placeholder="Your name"
               className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-zinc-900 outline-none transition focus:border-zinc-500"
+              required
             />
           </div>
 
@@ -45,6 +74,7 @@ export default function QuotePage() {
               type="email"
               placeholder="you@example.com"
               className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-zinc-900 outline-none transition focus:border-zinc-500"
+              required
             />
           </div>
 
@@ -91,6 +121,7 @@ export default function QuotePage() {
               name="eventType"
               defaultValue=""
               className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-zinc-900 outline-none transition focus:border-zinc-500"
+              required
             >
               <option value="" disabled>
                 Select event type
