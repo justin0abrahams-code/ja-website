@@ -73,7 +73,7 @@ export default function HomePage() {
                 href="/quote"
                 className="rounded-lg border border-zinc-300 px-5 py-3 text-sm font-medium text-zinc-900 transition hover:bg-zinc-50"
               >
-                Get a Fast Quote
+                Get a Quote
               </Link>
             </div>
           </div>

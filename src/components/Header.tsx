@@ -26,6 +26,12 @@ export function Header() {
             </Link>
           ))}
         </nav>
+        <Link
+          href="/quote"
+          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-700"
+        >
+          Get a Quote
+        </Link>
       </div>
     </header>
   );

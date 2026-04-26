@@ -99,14 +99,14 @@ export default async function PackageDetailPage({
             href="/quote"
             className="rounded-lg bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-700"
           >
-            Request Quote
+            Request Availability
           </Link>
 
           <Link
             href="/packages"
             className="rounded-lg border border-zinc-300 px-5 py-3 text-sm font-medium text-zinc-900 hover:bg-zinc-50"
           >
-            View More Packages
+            Browse More Packages
           </Link>
         </div>
       </div>
