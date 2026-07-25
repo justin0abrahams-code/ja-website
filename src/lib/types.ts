@@ -3,7 +3,9 @@ export type PackageCategory =
   | "Wedding"
   | "Live Music"
   | "Lighting"
-  | "Party";
+  | "Party"
+  | "Sound"
+  | "Custom";
 
 export interface RentalPackage {
   slug: string;
@@ -15,5 +17,7 @@ export interface RentalPackage {
   includes: string[];
   addons: string[];
   description: string;
+  imageSrc?: string;
+  rentalPeriod?: string;
   featured?: boolean;
 }

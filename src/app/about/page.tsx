@@ -1,50 +1,62 @@
+import Image from "next/image";
 import Link from "next/link";
+import { siteConfig } from "@/data/site";
 
 const serviceAreas = [
-  "Corporate events",
-  "Weddings",
-  "Live music",
-  "Private parties",
-  "Presentations and speaking events",
+  "North Georgia weddings and private gatherings",
+  "Corporate meetings, conferences, and trainings",
+  "Live shows, bands, and outdoor event setups",
+  "Parties, cookouts, and home movie nights",
 ];
 
 const supportOptions = [
-  "Equipment rental packages",
-  "Delivery options",
-  "Setup and strike support",
-  "Optional on-site technician support",
-  "Help choosing the right package for the event",
+  "Fixed sound rental packages",
+  "Subwoofer, uplighting, and band upgrades",
+  "Equipment delivery and pickup",
+  "Setup, strike, and stage hand labor",
+  "Technical equipment operators",
 ];
 
 export default function AboutPage() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
-      <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
-          About JA Event Production
-        </p>
+      <div className="grid gap-10 lg:grid-cols-[1fr_0.85fr] lg:items-center">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
+            About {siteConfig.shortName}
+          </p>
 
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-zinc-950">
-          Rental-first event support with practical expertise
-        </h1>
+          <h1 className="mt-3 font-serif text-4xl font-bold tracking-tight text-zinc-950">
+            A small family-owned event production company focused on rentals
+          </h1>
 
-        <p className="mt-6 text-lg leading-8 text-zinc-600">
-          JA Event Production is built to make audio, lighting, and AV rentals
-          easier to understand and easier to book. The goal is to help customers
-          get the right setup for the event without having to decode a long list
-          of gear on their own.
-        </p>
+          <p className="mt-6 text-lg leading-8 text-zinc-600">
+            {siteConfig.businessName} serves the {siteConfig.serviceArea} area
+            with audio, lighting, and production equipment rentals backed by{" "}
+            {siteConfig.experience}.
+          </p>
 
-        <p className="mt-4 text-zinc-600">
-          Instead of leading with vague service language or raw inventory, the
-          approach is simple: clear packages, fast quote requests, optional
-          delivery and setup, and dependable support when the event matters.
-        </p>
+          <p className="mt-4 text-zinc-600">
+            The launch site leads with packages because most customers need a
+            clear starting point: what setup fits the event, what it starts at,
+            and whether delivery, setup, or a technical operator is available.
+          </p>
+        </div>
+
+        <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-zinc-200">
+          <Image
+            src="/brand/stage-audio.jpg"
+            alt="Stage and speaker setup for an event"
+            fill
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            className="object-cover"
+          />
+        </div>
       </div>
 
       <div className="mt-12 grid gap-8 lg:grid-cols-2">
-        <div className="rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
+        <div className="rounded-lg border border-zinc-200 bg-white p-8 shadow-sm">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
             What We Support
           </p>
           <h2 className="mt-3 text-2xl font-bold tracking-tight text-zinc-950">
@@ -53,18 +65,15 @@ export default function AboutPage() {
 
           <ul className="mt-6 space-y-4">
             {serviceAreas.map((item) => (
-              <li
-                key={item}
-                className="rounded-2xl bg-zinc-50 px-5 py-4 text-zinc-800"
-              >
+              <li key={item} className="rounded-lg bg-[#f5f0e8] px-5 py-4">
                 {item}
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
+        <div className="rounded-lg border border-zinc-200 bg-white p-8 shadow-sm">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
             Support Options
           </p>
           <h2 className="mt-3 text-2xl font-bold tracking-tight text-zinc-950">
@@ -73,10 +82,7 @@ export default function AboutPage() {
 
           <ul className="mt-6 space-y-4">
             {supportOptions.map((item) => (
-              <li
-                key={item}
-                className="rounded-2xl bg-zinc-50 px-5 py-4 text-zinc-800"
-              >
+              <li key={item} className="rounded-lg bg-[#f5f0e8] px-5 py-4">
                 {item}
               </li>
             ))}
@@ -84,52 +90,45 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-8 rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
+      <div className="mt-8 rounded-lg border border-zinc-200 bg-white p-8 shadow-sm">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
           Service Area
         </p>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-zinc-950">
-          Serving local events and regional clients
+          Serving {siteConfig.serviceArea}
         </h2>
 
         <p className="mt-4 text-zinc-600">
-          Service area details can be refined as the business finalizes its
-          standard coverage range. For now, this page should communicate that JA
-          Event Production supports local and regional event clients and can
-          discuss delivery, setup, and logistics during the quote process.
-        </p>
-
-        <p className="mt-4 text-zinc-600">
-          Once you have the exact cities, counties, or metro area wording from
-          your friend, this section can be updated with a more precise coverage
-          statement.
+          The pricing document describes the company as serving the North
+          Georgia area. City, county, radius, and travel fee language can be
+          tightened once Justin confirms the exact public service area wording.
         </p>
       </div>
 
-      <div className="mt-8 rounded-3xl bg-zinc-900 px-8 py-12 text-white">
+      <div className="mt-8 rounded-lg bg-[#1a1f2e] px-8 py-12 text-white">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#f2a81d]">
             Need help choosing?
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight">
-            Tell us about the event and we’ll help match the right setup
+          <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight">
+            Tell us about the event and Justin can match the right setup
           </h2>
-          <p className="mt-4 text-zinc-300">
-            If you are not sure which package fits your event, the fastest next
-            step is to request a quote and share the basics.
+          <p className="mt-4 text-[#f5f0e8]/75">
+            If you are not sure which package fits your event, request a quote
+            and share the basics.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/quote"
-              className="rounded-lg bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition hover:bg-zinc-200"
+              className="rounded-md bg-[#f2a81d] px-5 py-3 text-sm font-semibold text-[#1a1f2e] transition hover:bg-[#f7c35a]"
             >
               Get a Fast Quote
             </Link>
 
             <Link
               href="/packages"
-              className="rounded-lg border border-zinc-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-zinc-800"
+              className="rounded-md border border-[#f2a81d]/60 px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#f2a81d]/10"
             >
               Browse Packages
             </Link>

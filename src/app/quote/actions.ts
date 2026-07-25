@@ -3,11 +3,18 @@
 import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { quoteRequests } from "@/db/schema";
+import { packages } from "@/data/packages";
 import { sendQuoteNotificationEmail } from "@/lib/email";
 import { validateQuoteForm } from "@/lib/validation";
 
 export async function submitQuoteRequest(formData: FormData) {
   const rawGuestCount = String(formData.get("guestCount") ?? "").trim();
+  const selectedPackageSlug = String(
+    formData.get("selectedPackageSlug") ?? ""
+  ).trim();
+  const selectedPackage = packages.find(
+    (pkg) => pkg.slug === selectedPackageSlug
+  );
 
   const guestCount =
     rawGuestCount === "" ? null : Number.parseInt(rawGuestCount, 10);
@@ -35,6 +42,11 @@ export async function submitQuoteRequest(formData: FormData) {
   }
 
   const data = validation.data;
+  const notes = selectedPackage
+    ? [`Selected package: ${selectedPackage.name}`, data.notes]
+        .filter(Boolean)
+        .join("\n\n")
+    : data.notes;
 
   try {
     await db.insert(quoteRequests).values({
@@ -55,11 +67,14 @@ export async function submitQuoteRequest(formData: FormData) {
         ? (data.rentalPreference as "pickup" | "delivery" | "not-sure")
         : null,
       supportNeeds: data.supportNeeds,
-      notes: data.notes || null,
+      notes: notes || null,
       status: "new",
     });
 
-    await sendQuoteNotificationEmail(data);
+    await sendQuoteNotificationEmail({
+      ...data,
+      notes,
+    });
   } catch (error) {
     console.error("Failed to submit quote request:", error);
     redirect("/quote?error=Something went wrong. Please try again.");

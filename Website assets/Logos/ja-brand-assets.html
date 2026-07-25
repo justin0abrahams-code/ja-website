@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JA — Brand Assets</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600&family=Josefin+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #F2A81D;
+    --gold-light: #F7C35A;
+    --gold-dark: #C8860D;
+    --navy: #1A1F2E;
+    --navy-mid: #252B3B;
+    --navy-light: #2E3650;
+    --cream: #F5F0E8;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111318;
+    font-family: 'Josefin Sans', sans-serif;
+    color: var(--cream);
+    padding: 48px 32px;
+  }
+
+  .page-title {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 48px;
+    opacity: 0.7;
+  }
+
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(242, 168, 29, 0.2);
+  }
+
+  /* ===================== LOGOS ===================== */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .logo-card {
+    border: 1px solid rgba(242, 168, 29, 0.15);
+    border-radius: 4px;
+    padding: 40px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logo-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(242,168,29,0.04) 0%, transparent 70%);
+  }
+
+  .logo-card.dark { background: var(--navy); }
+  .logo-card.light { background: var(--cream); }
+  .logo-card.gold-bg { background: var(--gold); }
+
+  /* Logo 1: Horizontal lockup */
+  .logo-horizontal {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .logo-badge {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2.5px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-badge-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .logo-wordmark {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .logo-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .logo-sub {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 300;
+    opacity: 0.8;
+  }
+
+  /* Logo 2: Stacked */
+  .logo-stacked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .logo-stacked .logo-badge {
+    width: 80px;
+    height: 80px;
+  }
+
+  .logo-stacked .logo-badge-text {
+    font-size: 24px;
+  }
+
+  .logo-stacked .logo-name {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  .logo-stacked .logo-sub {
+    font-size: 9px;
+    letter-spacing: 4.5px;
+  }
+
+  /* Logo 3: Icon only */
+  .logo-icon-only .logo-badge {
+    width: 90px;
+    height: 90px;
+  }
+
+  .logo-icon-only .logo-badge-text {
+    font-size: 28px;
+  }
+
+  /* Color variants */
+  .gold-on-dark { color: var(--gold); }
+  .dark-on-cream { color: var(--navy); }
+  .dark-on-gold { color: var(--navy); }
+  .cream-on-navy { color: var(--cream); }
+  .gold-on-navy { color: var(--gold); }
+
+  /* ===================== BANNERS ===================== */
+  .banner-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Banner 1: Hero wide */
+  .banner-hero {
+    background: var(--navy);
+    border: 1px solid rgba(242,168,29,0.2);
+    border-radius: 4px;
+    padding: 52px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    min-height: 180px;
+  }
+
+  .banner-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    border: 60px solid rgba(242,168,29,0.06);
+  }
+
+  .banner-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    right: 80px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    border: 40px solid rgba(242,168,29,0.04);
+  }
+
+  .banner-hero-left {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .banner-badge {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .banner-hero-text { }
+
+  .banner-hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.5px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .banner-hero-sub {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 300;
+  }
+
+  .banner-hero-right {
+    position: relative;
+    z-index: 1;
+    text-align: right;
+  }
+
+  .banner-services {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: right;
+  }
+
+  .banner-service-item {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.6;
+    font-weight: 300;
+  }
+
+  .banner-divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, rgba(242,168,29,0.4), transparent);
+    margin: 0 32px;
+    flex-shrink: 0;
+  }
+
+  /* Banner 2: Gold accent */
+  .banner-accent {
+    background: var(--gold);
+    border-radius: 4px;
+    padding: 28px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100px;
+  }
+
+  .banner-accent-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .banner-accent-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navy);
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .banner-accent-text .banner-accent-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+
+  .banner-accent-text .banner-accent-sub {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--navy);
+    opacity: 0.65;
+    font-weight: 400;
+    margin-top: 4px;
+  }
+
+  .banner-accent-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--navy);
+    opacity: 0.75;
+    letter-spacing: 0.5px;
+  }
+
+  /* Banner 3: Slim strip */
+  .banner-strip {
+    background: var(--navy-mid);
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    padding: 18px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .strip-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .strip-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .strip-text {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--cream);
+    font-weight: 300;
+  }
+
+  .strip-separator {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--gold);
+    opacity: 0.4;
+  }
+
+  /* ===================== BUTTONS ===================== */
+  .button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* Primary gold */
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 16px 36px;
+    border-radius: 2px;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(242,168,29,0.3);
+  }
+
+  /* Outline gold */
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    padding: 14px 34px;
+    border: 1.5px solid var(--gold);
+    border-radius: 2px;
+  }
+
+  .btn-outline:hover {
+    background: rgba(242,168,29,0.08);
+    transform: translateY(-1px);
+  }
+
+  /* Dark filled */
+  .btn-dark {
+    background: var(--navy);
+    color: var(--gold);
+    padding: 16px 36px;
+    border-radius: 2px;
+    border: 1.5px solid rgba(242,168,29,0.3);
+  }
+
+  .btn-dark:hover {
+    border-color: var(--gold);
+    transform: translateY(-1px);
+  }
+
+  /* Ghost cream */
+  .btn-ghost {
+    background: transparent;
+    color: var(--cream);
+    padding: 14px 34px;
+    border: 1.5px solid rgba(245,240,232,0.3);
+    border-radius: 2px;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--cream);
+    transform: translateY(-1px);
+  }
+
+  /* Pill variants */
+  .btn-pill-gold {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 14px 32px;
+    border-radius: 100px;
+  }
+
+  .btn-pill-outline {
+    background: transparent;
+    color: var(--gold);
+    padding: 12px 30px;
+    border: 1.5px solid var(--gold);
+    border-radius: 100px;
+  }
+
+  /* Large CTA */
+  .btn-cta {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 20px 52px;
+    border-radius: 2px;
+    font-size: 11px;
+    letter-spacing: 4px;
+  }
+
+  .btn-cta:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(242,168,29,0.35);
+  }
+
+  /* Icon button */
+  .btn-icon {
+    background: transparent;
+    color: var(--gold);
+    padding: 14px 14px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+
+  .btn-arrow::after {
+    content: '→';
+    font-size: 13px;
+    letter-spacing: 0;
+    transition: transform 0.2s;
+  }
+
+  .btn-arrow:hover::after {
+    transform: translateX(4px);
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    padding: 24px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .btn-row.on-dark { background: var(--navy); }
+  .btn-row.on-light { background: var(--cream); }
+  .btn-row.on-gold { background: var(--gold); }
+
+  /* Light bg button variants */
+  .btn-primary-inv {
+    background: var(--navy);
+    color: var(--gold);
+    padding: 16px 36px;
+    border-radius: 2px;
+  }
+
+  .btn-outline-inv {
+    background: transparent;
+    color: var(--navy);
+    padding: 14px 34px;
+    border: 1.5px solid var(--navy);
+    border-radius: 2px;
+  }
+
+  .btn-outline-inv-pill {
+    background: transparent;
+    color: var(--navy);
+    padding: 12px 30px;
+    border: 1.5px solid var(--navy);
+    border-radius: 100px;
+  }
+
+  .row-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">Justin Abrahams — Event Production · Brand Assets</div>
+
+<!-- LOGOS -->
+<div class="section">
+  <div class="section-label">Logos</div>
+  <div class="logo-grid">
+
+    <!-- Horizontal dark -->
+    <div class="logo-card dark">
+      <div class="logo-horizontal gold-on-dark">
+        <div class="logo-badge">
+          <span class="logo-badge-text">J|A</span>
+        </div>
+        <div class="logo-wordmark">
+          <span class="logo-name">Justin Abrahams</span>
+          <span class="logo-sub">Event Production</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horizontal cream bg -->
+    <div class="logo-card light">
+      <div class="logo-horizontal dark-on-cream">
+        <div class="logo-badge">
+          <span class="logo-badge-text">J|A</span>
+        </div>
+        <div class="logo-wordmark">
+          <span class="logo-name">Justin Abrahams</span>
+          <span class="logo-sub">Event Production</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horizontal gold bg -->
+    <div class="logo-card gold-bg">
+      <div class="logo-horizontal dark-on-gold">
+        <div class="logo-badge">
+          <span class="logo-badge-text">J|A</span>
+        </div>
+        <div class="logo-wordmark">
+          <span class="logo-name">Justin Abrahams</span>
+          <span class="logo-sub">Event Production</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stacked dark -->
+    <div class="logo-card dark">
+      <div class="logo-stacked gold-on-dark">
+        <div class="logo-badge">
+          <span class="logo-badge-text">J|A</span>
+        </div>
+        <div class="logo-wordmark" style="align-items:center;text-align:center;">
+          <span class="logo-name">Justin Abrahams</span>
+          <span class="logo-sub">Event Production</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stacked cream -->
+    <div class="logo-card light">
+      <div class="logo-stacked dark-on-cream">
+        <div class="logo-badge">
+          <span class="logo-badge-text">J|A</span>
+        </div>
+        <div class="logo-wordmark" style="align-items:center;text-align:center;">
+          <span class="logo-name">Justin Abrahams</span>
+          <span class="logo-sub">Event Production</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Icon only — all 3 colorways -->
+    <div class="logo-card dark logo-icon-only" style="display:flex;gap:32px;align-items:center;justify-content:center;">
+      <div class="logo-badge gold-on-dark" style="width:90px;height:90px;">
+        <span class="logo-badge-text" style="font-size:28px;">J|A</span>
+      </div>
+      <div class="logo-badge cream-on-navy" style="width:90px;height:90px;border-color:var(--cream);color:var(--cream);">
+        <span class="logo-badge-text" style="font-size:28px;">J|A</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BANNERS -->
+<div class="section">
+  <div class="section-label">Banners</div>
+  <div class="banner-stack">
+
+    <!-- Hero dark banner -->
+    <div class="banner-hero">
+      <div class="banner-hero-left">
+        <div class="banner-badge">J|A</div>
+        <div class="banner-hero-text">
+          <div class="banner-hero-name">Justin Abrahams</div>
+          <div class="banner-hero-sub">Event Production</div>
+        </div>
+      </div>
+      <div class="banner-divider"></div>
+      <div class="banner-hero-right">
+        <div class="banner-services">
+          <span class="banner-service-item">Event Production</span>
+          <span class="banner-service-item">Equipment Rentals</span>
+          <span class="banner-service-item">Weddings · Parties</span>
+          <span class="banner-service-item">Live Shows · Conferences</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gold accent banner -->
+    <div class="banner-accent">
+      <div class="banner-accent-left">
+        <div class="banner-accent-badge">J|A</div>
+        <div class="banner-accent-text">
+          <div class="banner-accent-name">Justin Abrahams</div>
+          <div class="banner-accent-sub">Event Production</div>
+        </div>
+      </div>
+      <div class="banner-accent-tagline">Sound that moves the moment.</div>
+    </div>
+
+    <!-- Strip banner -->
+    <div class="banner-strip">
+      <div class="strip-item">
+        <div class="strip-dot"></div>
+        <span class="strip-text">Event Production</span>
+      </div>
+      <span class="strip-separator">·</span>
+      <div class="strip-item">
+        <div class="strip-dot"></div>
+        <span class="strip-text">Equipment Rentals</span>
+      </div>
+      <span class="strip-separator">·</span>
+      <div class="strip-item">
+        <div class="strip-dot"></div>
+        <span class="strip-text">Weddings & Parties</span>
+      </div>
+      <span class="strip-separator">·</span>
+      <div class="strip-item">
+        <div class="strip-dot"></div>
+        <span class="strip-text">Corporate Events</span>
+      </div>
+      <span class="strip-separator">·</span>
+      <div class="strip-item">
+        <div class="strip-dot"></div>
+        <span class="strip-text">Live Shows</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BUTTONS -->
+<div class="section">
+  <div class="section-label">Buttons</div>
+
+  <div class="row-label">On Dark Background</div>
+  <div class="btn-row on-dark">
+    <button class="btn btn-primary">Book Now</button>
+    <button class="btn btn-primary btn-arrow">Get a Quote</button>
+    <button class="btn btn-outline">Learn More</button>
+    <button class="btn btn-outline btn-arrow">Our Services</button>
+    <button class="btn btn-ghost">Contact Us</button>
+    <button class="btn btn-cta">Request a Consultation</button>
+    <button class="btn btn-pill-gold">Book an Event</button>
+    <button class="btn btn-pill-outline">View Portfolio</button>
+    <button class="btn btn-icon">♪</button>
+  </div>
+
+  <div class="row-label">On Gold Background</div>
+  <div class="btn-row on-gold">
+    <button class="btn btn-primary-inv">Book Now</button>
+    <button class="btn btn-primary-inv btn-arrow">Get a Quote</button>
+    <button class="btn btn-outline-inv">Learn More</button>
+    <button class="btn btn-outline-inv-pill">Our Services</button>
+  </div>
+
+  <div class="row-label">On Light / Cream Background</div>
+  <div class="btn-row on-light">
+    <button class="btn btn-primary-inv">Book Now</button>
+    <button class="btn btn-primary-inv btn-arrow">Get a Quote</button>
+    <button class="btn btn-outline-inv">Learn More</button>
+    <button class="btn btn-outline-inv-pill">Contact</button>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { packages } from "@/data/packages";
@@ -26,88 +27,107 @@ export default async function PackageDetailPage({
   }
 
   return (
-    <section className="mx-auto max-w-4xl px-6 py-16">
+    <section className="mx-auto max-w-5xl px-6 py-16">
       <div className="mb-6">
         <Link
           href="/packages"
-          className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+          className="text-sm font-semibold text-zinc-600 hover:text-zinc-900"
         >
-          ← Back to Packages
+          Back to Packages
         </Link>
       </div>
 
-      <div className="rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700">
-            {pkg.category}
-          </span>
-          <span className="text-sm font-semibold text-zinc-900">
-            Starting at {pkg.startingPrice}
-          </span>
-        </div>
+      <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
+        {pkg.imageSrc ? (
+          <div className="relative aspect-[21/9] min-h-[260px] bg-zinc-100">
+            <Image
+              src={pkg.imageSrc}
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 960px, 100vw"
+              className="object-cover"
+            />
+          </div>
+        ) : null}
 
-        <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-950">
-          {pkg.name}
-        </h1>
-
-        <p className="mt-4 text-lg leading-8 text-zinc-600">
-          {pkg.description}
-        </p>
-
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl bg-zinc-50 p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
-              Best For
-            </h2>
-            <p className="mt-3 text-zinc-800">{pkg.bestFor}</p>
+        <div className="p-8">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="rounded-full bg-[#f2a81d]/15 px-3 py-1 text-xs font-semibold text-[#1a1f2e]">
+              {pkg.category}
+            </span>
+            <span className="text-sm font-semibold text-zinc-900">
+              {pkg.startingPrice === "Custom"
+                ? "Custom quote"
+                : `Starting at ${pkg.startingPrice}`}
+            </span>
+            {pkg.rentalPeriod ? (
+              <span className="text-sm text-zinc-500">{pkg.rentalPeriod}</span>
+            ) : null}
           </div>
 
-          <div className="rounded-2xl bg-zinc-50 p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
-              Event Size
-            </h2>
-            <p className="mt-3 text-zinc-800">{pkg.eventSize}</p>
+          <h1 className="mt-4 font-serif text-4xl font-bold tracking-tight text-zinc-950">
+            {pkg.name}
+          </h1>
+
+          <p className="mt-4 text-lg leading-8 text-zinc-600">
+            {pkg.description}
+          </p>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="rounded-lg bg-[#f5f0e8] p-5">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-[#c8860d]">
+                Best For
+              </h2>
+              <p className="mt-3 text-zinc-800">{pkg.bestFor}</p>
+            </div>
+
+            <div className="rounded-lg bg-[#f5f0e8] p-5">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-[#c8860d]">
+                Event Size
+              </h2>
+              <p className="mt-3 text-zinc-800">{pkg.eventSize}</p>
+            </div>
           </div>
-        </div>
 
-        <div className="mt-10 grid gap-8 md:grid-cols-2">
-          <div>
-            <h2 className="text-xl font-semibold text-zinc-950">
-              What&apos;s Included
-            </h2>
-            <ul className="mt-4 space-y-3 text-zinc-700">
-              {pkg.includes.map((item) => (
-                <li key={item}>• {item}</li>
-              ))}
-            </ul>
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            <div>
+              <h2 className="text-xl font-semibold text-zinc-950">
+                What&apos;s Included
+              </h2>
+              <ul className="mt-4 list-disc space-y-3 pl-5 text-zinc-700">
+                {pkg.includes.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold text-zinc-950">
+                Optional Add-Ons
+              </h2>
+              <ul className="mt-4 list-disc space-y-3 pl-5 text-zinc-700">
+                {pkg.addons.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <div>
-            <h2 className="text-xl font-semibold text-zinc-950">
-              Optional Add-Ons
-            </h2>
-            <ul className="mt-4 space-y-3 text-zinc-700">
-              {pkg.addons.map((item) => (
-                <li key={item}>• {item}</li>
-              ))}
-            </ul>
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Link
+              href={`/quote?package=${pkg.slug}`}
+              className="rounded-md bg-[#1a1f2e] px-5 py-3 text-sm font-semibold text-white hover:bg-[#252b3b]"
+            >
+              Request Availability
+            </Link>
+
+            <Link
+              href="/packages"
+              className="rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50"
+            >
+              Browse More Packages
+            </Link>
           </div>
-        </div>
-
-        <div className="mt-10 flex flex-wrap gap-4">
-          <Link
-            href="/quote"
-            className="rounded-lg bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-700"
-          >
-            Request Availability
-          </Link>
-
-          <Link
-            href="/packages"
-            className="rounded-lg border border-zinc-300 px-5 py-3 text-sm font-medium text-zinc-900 hover:bg-zinc-50"
-          >
-            Browse More Packages
-          </Link>
         </div>
       </div>
     </section>

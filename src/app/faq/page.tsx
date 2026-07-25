@@ -1,45 +1,45 @@
 import Link from "next/link";
+import { siteConfig } from "@/data/site";
 
 const faqs = [
   {
     question: "Do you offer delivery and setup?",
     answer:
-      "Yes. Delivery and setup can be discussed during the quote process based on the event location, package, and support needed.",
+      "Yes. Equipment delivery and pickup is listed at $450, with setup, strike, and stage hand labor available at $400/day per person.",
   },
   {
     question: "Can I rent gear without an on-site technician?",
     answer:
-      "Yes. Some events may only need equipment rental, while others may benefit from setup help or technician support. The quote process helps determine the right fit.",
+      "Yes. Some packages are rental-friendly, especially smaller announcement setups. Larger events, bands, and higher-pressure timelines may benefit from setup help or a technical equipment operator.",
+  },
+  {
+    question: "What does a technical equipment operator cost?",
+    answer:
+      "The current add-on pricing lists an event technical equipment operator at $800 per 10 hours, per operator.",
   },
   {
     question: "What if I am not sure what package I need?",
     answer:
-      "That is completely fine. The site is designed to make the process easier, not force customers to know every technical detail. Submit a quote request with the basics of your event and JA Event Production can recommend the right setup.",
+      "Start with a custom quote request. Share the event type, date, guest count, location, and what you are trying to accomplish, and Justin can recommend the right setup.",
   },
   {
     question: "How far in advance should I request a quote?",
     answer:
-      "As early as possible is best, especially for weddings, live music, and larger event dates. Early requests improve the chances of getting the right package and support availability.",
+      "As early as possible is best, especially for weddings, live shows, and larger event dates. Early requests improve the chance of matching the right package and support availability.",
   },
   {
-    question: "Can you support different types of events?",
+    question: "Do packages include every possible upgrade?",
     answer:
-      "Yes. JA Event Production supports a range of event types including corporate events, weddings, presentations, parties, and live music needs.",
-  },
-  {
-    question: "Do I need to know exactly what equipment I want?",
-    answer:
-      "No. Most customers think in terms of event needs, not individual gear models. That is why the site leads with packages and a quote request flow instead of expecting every customer to build a system from scratch.",
+      "No. The fixed packages are starting points. Subwoofers, uplighting, band gear, delivery, labor, and operators can be added based on the event.",
   },
   {
     question: "What information should I include in a quote request?",
     answer:
-      "The most helpful details are your event date, location, event type, guest count, and any notes about what kind of setup or support you think you need.",
+      "The most helpful details are your event date, location, event type, guest count, preferred package, pickup or delivery preference, and any notes about venue access or timing.",
   },
   {
-    question: "Can lighting be included with audio packages?",
-    answer:
-      "Yes, depending on the event. Lighting and other support options can be discussed as part of the quote request so the final recommendation fits the event more closely.",
+    question: "Where do you serve?",
+    answer: `The launch copy uses ${siteConfig.serviceArea}. Exact city, county, radius, and travel fee details can be confirmed during the quote process.`,
   },
 ];
 
@@ -47,17 +47,18 @@ export default function FaqPage() {
   return (
     <section className="mx-auto max-w-5xl px-6 py-16">
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
           Frequently Asked Questions
         </p>
 
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-zinc-950">
+        <h1 className="mt-3 font-serif text-4xl font-bold tracking-tight text-zinc-950">
           Helpful answers before you request a quote
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-zinc-600">
-          The goal is to make event rentals easier to understand, easier to
-          request, and easier to book with confidence.
+          Clear package pricing, flexible add-ons, and a quote-first workflow
+          keep the rental process simple without promising instant inventory
+          booking.
         </p>
       </div>
 
@@ -65,7 +66,7 @@ export default function FaqPage() {
         {faqs.map((item) => (
           <article
             key={item.question}
-            className="rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm"
+            className="rounded-lg border border-zinc-200 bg-white p-8 shadow-sm"
           >
             <h2 className="text-xl font-semibold tracking-tight text-zinc-950">
               {item.question}
@@ -75,30 +76,30 @@ export default function FaqPage() {
         ))}
       </div>
 
-      <div className="mt-10 rounded-3xl bg-zinc-900 px-8 py-12 text-white">
+      <div className="mt-10 rounded-lg bg-[#1a1f2e] px-8 py-12 text-white">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#f2a81d]">
             Still have questions?
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight">
-            Tell us about your event and we’ll help from there
+          <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight">
+            Tell us about your event and Justin can help from there
           </h2>
-          <p className="mt-4 text-zinc-300">
+          <p className="mt-4 text-[#f5f0e8]/75">
             A quote request is the fastest way to figure out the right package,
-            support options, and next steps for your event.
+            support options, and next steps.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/quote"
-              className="rounded-lg bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition hover:bg-zinc-200"
+              className="rounded-md bg-[#f2a81d] px-5 py-3 text-sm font-semibold text-[#1a1f2e] transition hover:bg-[#f7c35a]"
             >
               Get a Fast Quote
             </Link>
 
             <Link
               href="/packages"
-              className="rounded-lg border border-zinc-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-zinc-800"
+              className="rounded-md border border-[#f2a81d]/60 px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#f2a81d]/10"
             >
               Browse Packages
             </Link>

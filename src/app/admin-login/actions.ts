@@ -8,11 +8,11 @@ export async function loginAdmin(formData: FormData) {
   const expectedPassword = process.env.ADMIN_PASSWORD;
 
   if (!expectedPassword) {
-    redirect("/admin/login?error=Admin password is not configured.");
+    redirect("/admin-login?error=Admin password is not configured.");
   }
 
   if (password !== expectedPassword) {
-    redirect("/admin/login?error=Invalid password.");
+    redirect("/admin-login?error=Invalid password.");
   }
 
   await setAdminAuthCookie();

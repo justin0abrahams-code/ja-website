@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { siteConfig } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "JA Event Production",
-  description: "Audio, lighting, and AV rentals for events.",
+  title: `${siteConfig.businessName} | Event Rentals in ${siteConfig.serviceArea}`,
+  description:
+    "Sound, lighting, and event production equipment rentals with delivery, setup, and technical operator options in North Georgia.",
 };
 
 export default function RootLayout({

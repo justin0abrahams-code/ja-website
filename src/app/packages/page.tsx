@@ -5,15 +5,15 @@ export default function PackagesPage() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="max-w-2xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
           Rental Packages
         </p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-zinc-950">
-          Packages built for real event needs
+        <h1 className="mt-3 font-serif text-4xl font-bold tracking-tight text-zinc-950">
+          Sound, lighting, and support packages with real starting prices
         </h1>
         <p className="mt-4 text-zinc-600">
-          Start with the setup that fits your event, then add delivery, setup,
-          or technician support as needed.
+          Start with the setup that fits your event, then add delivery, labor,
+          uplighting, subs, band support, or a technical operator as needed.
         </p>
       </div>
 

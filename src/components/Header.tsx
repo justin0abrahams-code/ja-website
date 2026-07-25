@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { siteConfig } from "@/data/site";
 
 const navItems = [
   { href: "/packages", label: "Packages" },
@@ -9,28 +11,45 @@ const navItems = [
 
 export function Header() {
   return (
-    <header className="border-b border-zinc-200 bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-semibold text-zinc-900">
-          JA Event Production
+    <header className="border-b border-[#f2a81d]/25 bg-[#1a1f2e] text-[#f5f0e8]">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-6 py-4">
+        <Link href="/" className="flex items-center gap-3">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#f5f0e8]">
+            <Image
+              src="/brand/ja-logo.png"
+              alt=""
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
+          </span>
+          <span className="leading-tight">
+            <span className="block font-serif text-lg font-semibold">
+              {siteConfig.shortName}
+            </span>
+            <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[#f2a81d]">
+              Event Production
+            </span>
+          </span>
         </Link>
 
-        <nav className="flex items-center gap-6">
+        <nav className="hidden items-center gap-6 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-zinc-700 hover:text-zinc-950"
+              className="text-sm text-[#f5f0e8]/75 transition hover:text-[#f2a81d]"
             >
               {item.label}
             </Link>
           ))}
         </nav>
+
         <Link
           href="/quote"
-          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-700"
+          className="rounded-md bg-[#f2a81d] px-4 py-2 text-sm font-semibold text-[#1a1f2e] transition hover:bg-[#f7c35a]"
         >
-          Get a Quote
+          Get a Fast Quote
         </Link>
       </div>
     </header>
