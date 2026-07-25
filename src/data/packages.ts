@@ -3,11 +3,10 @@ import { RentalPackage } from "@/lib/types";
 export const packages: RentalPackage[] = [
   {
     slug: "basic-sound-package-1",
-    name: "Basic Sound Package 1",
+    name: "Small Event Sound Package",
     category: "Sound",
     bestFor: "Small meetings, birthday parties, cookouts, and private gatherings",
     eventSize: "50-75 people",
-    startingPrice: "$550",
     includes: [
       "2 high quality 2000 watt speakers",
       "2 speaker stands",
@@ -16,11 +15,11 @@ export const packages: RentalPackage[] = [
       "Audio adapter, cabling, power, and 6 ft folding table",
     ],
     addons: [
-      "Delivery and pickup - $450",
-      "Setup and strike labor - $400/day per person",
-      "Technical equipment operator - $800 per 10 hours",
-      "Basic subwoofer upgrade - $200/day",
-      "Basic uplighting upgrade - $100/day",
+      "Delivery and pickup",
+      "Setup and strike labor",
+      "Technical equipment operator",
+      "Basic subwoofer upgrade",
+      "Basic uplighting upgrade",
     ],
     description:
       "A compact announcement setup that is easy to transport and built for clear sound at smaller events.",
@@ -30,11 +29,10 @@ export const packages: RentalPackage[] = [
   },
   {
     slug: "basic-sound-package-2",
-    name: "Basic Sound Package 2",
+    name: "Medium Event Sound Package",
     category: "Sound",
     bestFor: "Meetings and events that need a little more coverage",
     eventSize: "150-200 people",
-    startingPrice: "$800",
     includes: [
       "4 high quality 2000 watt speakers",
       "4 speaker stands",
@@ -43,11 +41,11 @@ export const packages: RentalPackage[] = [
       "Audio adapters, cabling, power, and 6 ft folding table",
     ],
     addons: [
-      "Delivery and pickup - $450",
-      "Setup and strike labor - $400/day per person",
-      "Technical equipment operator - $800 per 10 hours",
-      "Basic subwoofer upgrade - $200/day",
-      "Basic uplighting upgrade - $100/day",
+      "Delivery and pickup",
+      "Setup and strike labor",
+      "Technical equipment operator",
+      "Basic subwoofer upgrade",
+      "Basic uplighting upgrade",
     ],
     description:
       "A medium announcement package for events that need more speaker coverage and microphone flexibility.",
@@ -57,11 +55,10 @@ export const packages: RentalPackage[] = [
   },
   {
     slug: "basic-sound-package-3",
-    name: "Basic Sound Package 3",
+    name: "Large Event Sound Package",
     category: "Sound",
     bestFor: "Large events, conferences, outdoor gatherings, and fuller room coverage",
     eventSize: "Up to 500 people",
-    startingPrice: "$1,300",
     includes: [
       "4 high quality 2000 watt speakers",
       "2 high quality 1000 watt speakers",
@@ -70,11 +67,11 @@ export const packages: RentalPackage[] = [
       "4 wireless handheld microphones plus cabling, power, and table",
     ],
     addons: [
-      "Delivery and pickup - $450",
-      "Setup and strike labor - $400/day per person",
-      "Technical equipment operator - $800 per 10 hours",
-      "Basic band upgrade - $750/day",
-      "Basic uplighting upgrade - $100/day",
+      "Delivery and pickup",
+      "Setup and strike labor",
+      "Technical equipment operator",
+      "Basic band upgrade",
+      "Basic uplighting upgrade",
     ],
     description:
       "A larger sound package with subs, expanded mixing, and the coverage needed for bigger rooms or crowds.",
@@ -84,11 +81,10 @@ export const packages: RentalPackage[] = [
   },
   {
     slug: "basic-uplighting-upgrade",
-    name: "Basic Uplighting Upgrade",
+    name: "Room Uplighting Upgrade",
     category: "Lighting",
     bestFor: "Weddings, parties, receptions, and room ambiance",
     eventSize: "Best matched to room size",
-    startingPrice: "$100",
     includes: [
       "8 basic color par lights",
       "Power cabling",
@@ -108,11 +104,10 @@ export const packages: RentalPackage[] = [
   },
   {
     slug: "basic-band-upgrade",
-    name: "Basic Band Upgrade",
+    name: "Live Band Support Upgrade",
     category: "Live Music",
     bestFor: "Bands that need monitors, stage microphones, DI boxes, and a larger mix setup",
     eventSize: "Add-on for live music events",
-    startingPrice: "$750",
     includes: [
       "4 high quality 2000 watt monitor speakers",
       "Band microphone kit",
@@ -121,9 +116,9 @@ export const packages: RentalPackage[] = [
       "32 channel mixer, I/O rack, split snake, cabling, power, and table",
     ],
     addons: [
-      "Technical equipment operator - $800 per 10 hours",
-      "Setup and strike labor - $400/day per person",
-      "Delivery and pickup - $450",
+      "Technical equipment operator",
+      "Setup and strike labor",
+      "Delivery and pickup",
     ],
     description:
       "A live music upgrade for events that need proper stage inputs, monitors, and operator-ready infrastructure.",
@@ -137,7 +132,6 @@ export const packages: RentalPackage[] = [
     category: "Custom",
     bestFor: "Weddings, corporate events, home movie nights, private parties, conferences, and unusual setups",
     eventSize: "Tell us about the event",
-    startingPrice: "Custom",
     includes: [
       "Package recommendation",
       "Upgrade and add-on guidance",
@@ -145,9 +139,9 @@ export const packages: RentalPackage[] = [
       "Right-sized quote for your event",
     ],
     addons: [
-      "Equipment delivery and pickup - $450",
-      "General labor - $400/day per person",
-      "Technical equipment operator - $800 per 10 hours",
+      "Equipment delivery and pickup",
+      "General labor",
+      "Technical equipment operator",
     ],
     description:
       "Not sure which package fits? Share the event details and Justin can recommend the right rental setup.",

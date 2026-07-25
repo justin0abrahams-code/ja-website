@@ -5,7 +5,7 @@ const faqs = [
   {
     question: "Do you offer delivery and setup?",
     answer:
-      "Yes. Equipment delivery and pickup is listed at $450, with setup, strike, and stage hand labor available at $400/day per person.",
+      "Yes. Delivery, pickup, setup, strike, and stage hand support are available. Include your venue or city and access details so the right support can be included in your quote.",
   },
   {
     question: "Can I rent gear without an on-site technician?",
@@ -13,9 +13,9 @@ const faqs = [
       "Yes. Some packages are rental-friendly, especially smaller announcement setups. Larger events, bands, and higher-pressure timelines may benefit from setup help or a technical equipment operator.",
   },
   {
-    question: "What does a technical equipment operator cost?",
+    question: "Can a technical equipment operator stay for the event?",
     answer:
-      "The current add-on pricing lists an event technical equipment operator at $800 per 10 hours, per operator.",
+      "Yes. Technical equipment operators are available for events that need active mixing, equipment monitoring, or hands-on support throughout the program.",
   },
   {
     question: "What if I am not sure what package I need?",
@@ -30,7 +30,7 @@ const faqs = [
   {
     question: "Do packages include every possible upgrade?",
     answer:
-      "No. The fixed packages are starting points. Subwoofers, uplighting, band gear, delivery, labor, and operators can be added based on the event.",
+      "No. Packages are practical starting points. Subwoofers, uplighting, band gear, delivery, labor, and operators can be added based on the event.",
   },
   {
     question: "What information should I include in a quote request?",
@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     question: "Where do you serve?",
-    answer: `The launch copy uses ${siteConfig.serviceArea}. Exact city, county, radius, and travel fee details can be confirmed during the quote process.`,
+    answer: `JA Event Production serves ${siteConfig.serviceArea}. Include your venue or city in the quote request so travel and availability can be confirmed.`,
   },
 ];
 
@@ -56,9 +56,9 @@ export default function FaqPage() {
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-zinc-600">
-          Clear package pricing, flexible add-ons, and a quote-first workflow
-          keep the rental process simple without promising instant inventory
-          booking.
+          Clear package details, flexible add-ons, and a quote-first workflow
+          keep the rental process simple without pretending inventory is
+          instantly bookable.
         </p>
       </div>
 

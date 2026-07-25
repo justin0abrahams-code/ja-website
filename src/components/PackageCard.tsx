@@ -22,14 +22,9 @@ export function PackageCard({ pkg }: PackageCardProps) {
       ) : null}
 
       <div className="flex flex-1 flex-col p-6">
-        <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="mb-3 flex items-center gap-3">
           <span className="rounded-full bg-[#f2a81d]/15 px-3 py-1 text-xs font-semibold text-[#1a1f2e]">
             {pkg.category}
-          </span>
-          <span className="text-sm font-semibold text-zinc-900">
-            {pkg.startingPrice === "Custom"
-              ? "Custom quote"
-              : `From ${pkg.startingPrice}`}
           </span>
         </div>
 
@@ -70,7 +65,7 @@ export function PackageCard({ pkg }: PackageCardProps) {
             href={`/quote?package=${pkg.slug}`}
             className="rounded-md bg-[#1a1f2e] px-4 py-2 text-sm font-semibold text-white hover:bg-[#252b3b]"
           >
-            Request Availability
+            Check Availability
           </Link>
 
           <Link

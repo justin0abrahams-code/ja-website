@@ -6,6 +6,7 @@ export const siteConfig = {
   description:
     "Equipment rentals and event production support for weddings, parties, live shows, conferences, meetings, and private gatherings across North Georgia.",
   experience: "16 years of event and planning experience",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
   services: [
     "Equipment rentals",
     "Delivery and pickup",
