@@ -13,7 +13,6 @@ export interface RentalPackage {
   category: PackageCategory;
   bestFor: string;
   eventSize: string;
-  startingPrice: string;
   includes: string[];
   addons: string[];
   description: string;

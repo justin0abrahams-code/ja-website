@@ -1,0 +1,103 @@
+name: Website change or feedback
+description: Request one content, design, or behavior change to the JA Event Production website.
+title: "[Website feedback] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use one issue for each distinct change. Add a screenshot whenever possible.
+
+        Do not include customer contact information, passwords, API keys, or other private information.
+
+  - type: dropdown
+    id: feedback_type
+    attributes:
+      label: Feedback type
+      description: Choose the category that best describes this request.
+      options:
+        - Content change
+        - Design or layout change
+        - Broken behavior
+        - New idea
+    validations:
+      required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: Page or location
+      description: Name the page and section. Include the local or public URL when possible.
+      placeholder: "Packages page — Small Event Sound Package card — http://localhost:3000/packages/"
+    validations:
+      required: true
+
+  - type: textarea
+    id: requested_change
+    attributes:
+      label: What needs to change?
+      description: Explain what is wrong, unclear, missing, or no longer accurate.
+      placeholder: "Describe what you see now and why it should change."
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired_result
+    attributes:
+      label: Desired wording or result
+      description: Provide exact replacement wording when requesting a text change. Otherwise describe the intended result.
+      placeholder: "Paste the approved wording or describe exactly what the finished page should show."
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Drag a screenshot here. If one is unavailable, write "No screenshot available" and explain why.
+      placeholder: "Drag and drop the screenshot into this field."
+    validations:
+      required: true
+
+  - type: input
+    id: device_browser
+    attributes:
+      label: Device and browser
+      description: Identify the computer or phone and browser used during review.
+      placeholder: "Windows 11, Microsoft Edge, desktop window"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Choose Normal unless this blocks quote requests or makes important information incorrect.
+      options:
+        - Normal
+        - Important
+        - Blocking
+        - Nice to have
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: List the checks that will prove this request is complete.
+      placeholder: |
+        - The approved wording appears on the correct page.
+        - The result works on desktop and mobile.
+        - No pricing is displayed.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I reviewed the request for private customer information and secrets.
+          required: true
+        - label: This issue describes one distinct website change.
+          required: true

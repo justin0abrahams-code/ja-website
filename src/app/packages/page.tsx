@@ -9,11 +9,12 @@ export default function PackagesPage() {
           Rental Packages
         </p>
         <h1 className="mt-3 font-serif text-4xl font-bold tracking-tight text-zinc-950">
-          Sound, lighting, and support packages with real starting prices
+          Sound and lighting packages built around real event needs
         </h1>
         <p className="mt-4 text-zinc-600">
-          Start with the setup that fits your event, then add delivery, labor,
-          uplighting, subs, band support, or a technical operator as needed.
+          Choose the setup that best matches your event size and use, then ask
+          about delivery, setup, uplighting, subs, band support, or a technical
+          operator.
         </p>
       </div>
 

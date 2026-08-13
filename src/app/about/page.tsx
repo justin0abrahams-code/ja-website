@@ -37,9 +37,9 @@ export default function AboutPage() {
           </p>
 
           <p className="mt-4 text-zinc-600">
-            The launch site leads with packages because most customers need a
-            clear starting point: what setup fits the event, what it starts at,
-            and whether delivery, setup, or a technical operator is available.
+            The site leads with packages because most customers need a clear
+            starting point: what setup fits the event and whether delivery,
+            setup, or a technical operator is available.
           </p>
         </div>
 
@@ -99,9 +99,9 @@ export default function AboutPage() {
         </h2>
 
         <p className="mt-4 text-zinc-600">
-          The pricing document describes the company as serving the North
-          Georgia area. City, county, radius, and travel fee language can be
-          tightened once Justin confirms the exact public service area wording.
+          Service is available across North Georgia. Share your venue or city
+          in the quote request so travel, delivery, and event logistics can be
+          confirmed for your date.
         </p>
       </div>
 

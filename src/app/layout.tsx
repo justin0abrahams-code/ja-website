@@ -4,10 +4,36 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { siteConfig } from "@/data/site";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
 export const metadata: Metadata = {
-  title: `${siteConfig.businessName} | Event Rentals in ${siteConfig.serviceArea}`,
+  metadataBase: siteUrl ? new URL(siteUrl) : undefined,
+  title: `${siteConfig.businessName} | Sound & Lighting Rentals`,
   description:
-    "Sound, lighting, and event production equipment rentals with delivery, setup, and technical operator options in North Georgia.",
+    "Sound and lighting rental packages for North Georgia events, with delivery, setup, and technical operator options.",
+  openGraph: {
+    title: `${siteConfig.businessName} | Sound & Lighting Rentals`,
+    description:
+      "Sound and lighting rental packages for North Georgia events, with delivery, setup, and technical operator options.",
+    type: "website",
+    images: siteUrl
+      ? [
+          {
+            url: "/og.png",
+            width: 1734,
+            height: 909,
+            alt: "Justin Abrahams Event Production sound and lighting rentals",
+          },
+        ]
+      : undefined,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.businessName} | Sound & Lighting Rentals`,
+    description:
+      "Sound and lighting rental packages for North Georgia events.",
+    images: siteUrl ? ["/og.png"] : undefined,
+  },
 };
 
 export default function RootLayout({

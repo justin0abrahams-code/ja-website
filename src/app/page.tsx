@@ -22,6 +22,29 @@ const eventTypes = [
   },
 ];
 
+const popularUpgrades = [
+  {
+    title: "Room Uplighting",
+    description:
+      "Add a clean, static color look for weddings, receptions, parties, and event spaces.",
+  },
+  {
+    title: "Subwoofer Support",
+    description:
+      "Add fuller low-end coverage for music-focused events and larger rooms.",
+  },
+  {
+    title: "Band Support",
+    description:
+      "Add monitors, stage microphones, DI boxes, stands, and expanded mixing for live performers.",
+  },
+  {
+    title: "Event-Day Help",
+    description:
+      "Ask about delivery, setup, strike labor, or an on-site technical equipment operator.",
+  },
+];
+
 const howItWorks = [
   "Choose a package or start with a custom quote",
   "Add upgrades like subs, uplighting, labor, or a technical operator",
@@ -29,7 +52,9 @@ const howItWorks = [
 ];
 
 export default function HomePage() {
-  const featuredPackages = packages.filter((pkg) => pkg.featured).slice(0, 4);
+  const featuredPackages = packages
+    .filter((pkg) => pkg.featured && pkg.category === "Sound")
+    .slice(0, 3);
 
   return (
     <>
@@ -37,11 +62,11 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#f2a81d]">
-              Equipment Rentals in {siteConfig.serviceArea}
+              {siteConfig.businessName}
             </p>
 
             <h1 className="mt-4 max-w-3xl font-serif text-4xl font-bold tracking-tight md:text-6xl">
-              {siteConfig.businessName}
+              Sound and lighting rental packages for North Georgia events
             </h1>
 
             <p className="mt-5 text-xl font-semibold text-[#f2a81d]">
@@ -49,9 +74,8 @@ export default function HomePage() {
             </p>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[#f5f0e8]/75">
-              Rental-first sound, lighting, and event production support for
-              weddings, parties, live shows, conferences, meetings, and private
-              gatherings.
+              Start with a right-sized package, then add delivery, setup, or
+              technician support when your event needs it.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -66,7 +90,7 @@ export default function HomePage() {
                 href="/quote"
                 className="rounded-md border border-[#f2a81d]/60 px-5 py-3 text-sm font-semibold text-[#f5f0e8] transition hover:bg-[#f2a81d]/10"
               >
-                Request Availability
+                Check Availability
               </Link>
             </div>
           </div>
@@ -85,8 +109,8 @@ export default function HomePage() {
                 Rentals, setup, and operators
               </p>
               <p className="mt-2 max-w-md text-sm leading-6 text-[#f5f0e8]/80">
-                Packages start at $550/day, with delivery, labor, and technical
-                operator add-ons available.
+                Clear package options for gatherings from small meetings to
+                events with crowds of up to 500 people.
               </p>
             </div>
           </div>
@@ -117,14 +141,14 @@ export default function HomePage() {
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
-              Launch Packages
+              Core Sound Packages
             </p>
             <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight text-zinc-950">
-              Start with a real rental package
+              Choose by event size and coverage needs
             </h2>
             <p className="mt-4 text-zinc-600">
-              Pick a sound package, add upgrades or event-day services, and
-              request availability before assuming gear is booked.
+              Compare what is included, then request availability so Justin can
+              confirm the right package, logistics, and support for your date.
             </p>
           </div>
 
@@ -136,10 +160,50 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
           {featuredPackages.map((pkg) => (
             <PackageCard key={pkg.slug} pkg={pkg} />
           ))}
+        </div>
+      </section>
+
+      <section className="border-y border-zinc-200 bg-[#f5f0e8]">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
+              Popular Upgrades
+            </p>
+            <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight text-zinc-950">
+              Add only the support your event needs
+            </h2>
+            <p className="mt-4 text-zinc-600">
+              Upgrades and event-day services are matched to the room, schedule,
+              audience, and access requirements during the quote process.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {popularUpgrades.map((upgrade) => (
+              <article
+                key={upgrade.title}
+                className="rounded-lg border border-[#f2a81d]/20 bg-white p-6"
+              >
+                <h3 className="text-lg font-semibold text-zinc-950">
+                  {upgrade.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-zinc-600">
+                  {upgrade.description}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <Link
+            href="/packages"
+            className="mt-8 inline-flex text-sm font-semibold text-[#1a1f2e] underline-offset-4 hover:underline"
+          >
+            See all packages and upgrades
+          </Link>
         </div>
       </section>
 
@@ -163,9 +227,9 @@ export default function HomePage() {
               A quote-first rental process
             </h2>
             <p className="mt-4 text-zinc-600">
-              The site does not pretend inventory is instantly bookable. It
-              helps customers choose a starting point, then Justin can confirm
-              availability, logistics, and the right support level.
+              Choose a practical starting point, share your event details, and
+              Justin will confirm availability, logistics, and the right
+              support level.
             </p>
 
             <div className="mt-8 space-y-4">
@@ -228,7 +292,7 @@ export default function HomePage() {
                 href="/quote"
                 className="rounded-md bg-[#f2a81d] px-5 py-3 text-sm font-semibold text-[#1a1f2e] transition hover:bg-[#f7c35a]"
               >
-                Get a Fast Quote
+                Check Your Date
               </Link>
 
               <Link

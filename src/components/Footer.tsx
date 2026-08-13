@@ -51,6 +51,14 @@ export function Footer() {
               Serving {siteConfig.serviceArea} with equipment rental packages,
               delivery, setup, and technician support options.
             </p>
+            {siteConfig.contactEmail ? (
+              <a
+                href={`mailto:${siteConfig.contactEmail}`}
+                className="mt-3 inline-block text-sm font-semibold text-[#f2a81d] hover:text-[#f7c35a]"
+              >
+                {siteConfig.contactEmail}
+              </a>
+            ) : null}
             <div className="mt-5">
               <Link
                 href="/quote"

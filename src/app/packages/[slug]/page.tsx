@@ -15,6 +15,8 @@ export function generateStaticParams() {
   }));
 }
 
+export const dynamicParams = false;
+
 export default async function PackageDetailPage({
   params,
 }: PackageDetailPageProps) {
@@ -54,11 +56,6 @@ export default async function PackageDetailPage({
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full bg-[#f2a81d]/15 px-3 py-1 text-xs font-semibold text-[#1a1f2e]">
               {pkg.category}
-            </span>
-            <span className="text-sm font-semibold text-zinc-900">
-              {pkg.startingPrice === "Custom"
-                ? "Custom quote"
-                : `Starting at ${pkg.startingPrice}`}
             </span>
             {pkg.rentalPeriod ? (
               <span className="text-sm text-zinc-500">{pkg.rentalPeriod}</span>
@@ -118,7 +115,7 @@ export default async function PackageDetailPage({
               href={`/quote?package=${pkg.slug}`}
               className="rounded-md bg-[#1a1f2e] px-5 py-3 text-sm font-semibold text-white hover:bg-[#252b3b]"
             >
-              Request Availability
+              Check Availability
             </Link>
 
             <Link
