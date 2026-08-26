@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { RentalPackage } from "@/lib/types";
+import type { RentalPackage } from "@/content/domain";
 
 interface PackageCardProps {
   pkg: RentalPackage;
@@ -9,17 +9,15 @@ interface PackageCardProps {
 export function PackageCard({ pkg }: PackageCardProps) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition hover:shadow-md">
-      {pkg.imageSrc ? (
-        <div className="relative aspect-[16/9] bg-zinc-100">
-          <Image
-            src={pkg.imageSrc}
-            alt=""
-            fill
-            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-            className="object-cover"
-          />
-        </div>
-      ) : null}
+      <div className="relative aspect-[16/9] bg-zinc-100">
+        <Image
+          src={pkg.image.src}
+          alt={pkg.image.alt}
+          fill
+          sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+          className="object-cover"
+        />
+      </div>
 
       <div className="flex flex-1 flex-col p-6">
         <div className="mb-3 flex items-center gap-3">

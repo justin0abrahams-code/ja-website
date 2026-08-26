@@ -1,49 +1,8 @@
 import Link from "next/link";
-import { siteConfig } from "@/data/site";
+import { getFaqs } from "@/content/repository";
 
-const faqs = [
-  {
-    question: "Do you offer delivery and setup?",
-    answer:
-      "Yes. Delivery, pickup, setup, strike, and stage hand support are available. Include your venue or city and access details so the right support can be included in your quote.",
-  },
-  {
-    question: "Can I rent gear without an on-site technician?",
-    answer:
-      "Yes. Some packages are rental-friendly, especially smaller announcement setups. Larger events, bands, and higher-pressure timelines may benefit from setup help or a technical equipment operator.",
-  },
-  {
-    question: "Can a technical equipment operator stay for the event?",
-    answer:
-      "Yes. Technical equipment operators are available for events that need active mixing, equipment monitoring, or hands-on support throughout the program.",
-  },
-  {
-    question: "What if I am not sure what package I need?",
-    answer:
-      "Start with a custom quote request. Share the event type, date, guest count, location, and what you are trying to accomplish, and Justin can recommend the right setup.",
-  },
-  {
-    question: "How far in advance should I request a quote?",
-    answer:
-      "As early as possible is best, especially for weddings, live shows, and larger event dates. Early requests improve the chance of matching the right package and support availability.",
-  },
-  {
-    question: "Do packages include every possible upgrade?",
-    answer:
-      "No. Packages are practical starting points. Subwoofers, uplighting, band gear, delivery, labor, and operators can be added based on the event.",
-  },
-  {
-    question: "What information should I include in a quote request?",
-    answer:
-      "The most helpful details are your event date, location, event type, guest count, preferred package, pickup or delivery preference, and any notes about venue access or timing.",
-  },
-  {
-    question: "Where do you serve?",
-    answer: `JA Event Production serves ${siteConfig.serviceArea}. Include your venue or city in the quote request so travel and availability can be confirmed.`,
-  },
-];
-
-export default function FaqPage() {
+export default async function FaqPage() {
+  const faqs = await getFaqs();
   return (
     <section className="mx-auto max-w-5xl px-6 py-16">
       <div className="max-w-3xl">

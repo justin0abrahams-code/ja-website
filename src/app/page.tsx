@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PackageCard } from "@/components/PackageCard";
-import { packages } from "@/data/packages";
+import { selectHomepagePackages } from "@/content/merchandising";
+import { getRentalPackages } from "@/content/repository";
 import { siteConfig } from "@/data/site";
 
 const eventTypes = [
@@ -51,10 +52,9 @@ const howItWorks = [
   "Confirm availability, delivery, setup, and event-day support",
 ];
 
-export default function HomePage() {
-  const featuredPackages = packages
-    .filter((pkg) => pkg.featured && pkg.category === "Sound")
-    .slice(0, 3);
+export default async function HomePage() {
+  const packages = await getRentalPackages();
+  const featuredPackages = selectHomepagePackages(packages);
 
   return (
     <>

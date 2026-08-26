@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { packages } from "@/data/packages";
+import { getRentalPackage, getRentalPackages } from "@/content/repository";
 
 interface PackageDetailPageProps {
   params: Promise<{
@@ -9,7 +9,8 @@ interface PackageDetailPageProps {
   }>;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const packages = await getRentalPackages();
   return packages.map((pkg) => ({
     slug: pkg.slug,
   }));
@@ -22,7 +23,7 @@ export default async function PackageDetailPage({
 }: PackageDetailPageProps) {
   const { slug } = await params;
 
-  const pkg = packages.find((item) => item.slug === slug);
+  const pkg = await getRentalPackage(slug);
 
   if (!pkg) {
     notFound();
@@ -40,17 +41,15 @@ export default async function PackageDetailPage({
       </div>
 
       <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
-        {pkg.imageSrc ? (
-          <div className="relative aspect-[21/9] min-h-[260px] bg-zinc-100">
-            <Image
-              src={pkg.imageSrc}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 960px, 100vw"
-              className="object-cover"
-            />
-          </div>
-        ) : null}
+        <div className="relative aspect-[21/9] min-h-[260px] bg-zinc-100">
+          <Image
+            src={pkg.image.src}
+            alt={pkg.image.alt}
+            fill
+            sizes="(min-width: 1024px) 960px, 100vw"
+            className="object-cover"
+          />
+        </div>
 
         <div className="p-8">
           <div className="flex flex-wrap items-center gap-3">

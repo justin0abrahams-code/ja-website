@@ -2,219 +2,184 @@
 
 ## Project overview
 
-JA Event Production is a rental-first audio, lighting, and AV event-rental website/MVP.
+JA Event Production is a rental-first audio, lighting, and AV event-rental website.
 
 The product direction is:
 
-- Lead with rental packages, not vague service copy or raw inventory.
-- Make it easy for customers to answer: what is available, what package fits my event, what it roughly costs, and whether delivery/setup/technician support is available.
-- Treat the quote/availability request flow as the primary conversion path.
-- Keep technician/setup/labor as optional add-ons that increase margin without making the site feel labor-first.
+- Lead with rental packages rather than vague service copy or raw inventory.
+- Help customers understand what is available, which package fits, and whether delivery, setup, and technician support are available.
+- Treat the quote and availability request as the primary conversion path.
+- Keep technician, setup, and labor options as add-ons without making the site labor-first.
 
-The current MVP is a Next.js App Router application with public marketing/package/quote pages, an admin quote area, Drizzle/Postgres persistence, and stubbed Resend email support.
+The application is a Next.js App Router site that exports to static files. It has public marketing, package, FAQ, and quote pages. It does not contain a database, admin quote area, application-server form handler, customer accounts, checkout, or real-time inventory reservations.
 
 ## Current stack
 
-- Next.js App Router
-- React
-- TypeScript
+- Node.js 22.12 or newer
+- Next.js App Router with output set to export
+- React and TypeScript
 - Tailwind CSS v4
-- Drizzle ORM + drizzle-kit
-- PostgreSQL via `DATABASE_URL` / Supabase project database
-- Resend for outbound email, currently safe to keep stubbed until domain/DNS details are ready
-- npm scripts from `package.json`
+- Sanity Studio and Content Lake for optional package/FAQ content
+- Checked-in fixtures for offline development and automated checks
+- A hosted-form endpoint or prefilled email fallback for quote requests
+- Vitest for focused content-layer tests
+- npm scripts from package.json
 
-## High-level architecture
+## Architecture
 
-Important folders and files:
+Important application areas:
 
-- `src/app/page.tsx` — homepage
-- `src/app/about/page.tsx` — about page
-- `src/app/faq/page.tsx` — FAQ page
-- `src/app/packages/page.tsx` — packages index
-- `src/app/packages/[slug]/page.tsx` — package detail pages
-- `src/app/quote/page.tsx` — quote request form page
-- `src/app/quote/actions.ts` — quote submit server action
-- `src/app/admin-login/page.tsx` — admin login page
-- `src/app/admin-login/actions.ts` — admin login server action
-- `src/app/admin/layout.tsx` — admin route protection/layout
-- `src/app/admin/quotes/page.tsx` — admin quote list
-- `src/app/admin/quotes/[id]/page.tsx` — admin quote detail
-- `src/app/admin/quotes/actions.ts` — admin quote actions
-- `src/components/` — shared UI components
-- `src/data/packages.ts` — package data source for the current MVP
-- `src/db/schema.ts` — Drizzle schema source of truth
-- `src/db/index.ts` — database client setup
-- `src/lib/admin-auth.ts` — admin auth helper logic
-- `src/lib/email.ts` — email sending abstraction/stub
-- `src/lib/types.ts` — shared TypeScript types
-- `src/lib/validation.ts` — quote form validation
-- `drizzle/` — generated migrations and metadata
+- src/app/page.tsx — homepage
+- src/app/packages/page.tsx — package index
+- src/app/packages/[slug]/page.tsx — statically generated package detail pages
+- src/app/quote/page.tsx — server page that resolves package choices
+- src/components/QuoteRequestForm.tsx — client-side hosted-form/email behavior
+- src/app/faq/page.tsx — repository-backed FAQ page
+- src/content/domain.ts — site-owned, Sanity-free content contracts
+- src/content/repository.ts — public asynchronous content repository and source selection
+- src/content/fixtures/ — checked-in package and FAQ content
+- src/content/sanity/ — Sanity client, queries, generated types, validation, mapping, and repository adapter
+- sanity/schemaTypes/ — JA-specific Studio schemas
+- sanity.config.ts and sanity.cli.ts — standalone Studio and TypeGen configuration
+- docs/CMS.md — setup, migration, publishing, recovery, and preview guidance
+- scripts/prepare-sites.mjs — stages the static export for the current hosting workflow
+
+The public site has four content boundaries:
+
+1. Site-owned domain contracts expose resolved RentalPackage, Faq, and ContentImage values without Sanity fields.
+2. The repository exposes getRentalPackages(), getRentalPackage(slug), and getFaqs().
+3. The Sanity adapter owns client configuration, GROQ, generated query types, runtime validation, mapping, image URL resolution, and provider-error translation.
+4. The Next.js composition layer selects fixture or Sanity content and resolves everything at build time.
+
+Pages and presentation components must not import fixture data, Sanity clients, GROQ queries, or generated Sanity types directly.
+
+## Content-source behavior
+
+JA_CONTENT_SOURCE controls the build:
+
+- Unset, empty, or fixture uses checked-in fixtures and requires no Sanity credentials or network.
+- sanity uses only published Sanity content.
+- Any unsupported value fails clearly.
+- Sanity mode must never fall back to fixtures after configuration, fetch, or validation failure.
+
+Sanity mode requires SANITY_STUDIO_PROJECT_ID and SANITY_STUDIO_DATASET. SANITY_READ_TOKEN is optional for a private dataset and must remain server/build-only. Never place viewer, read, or write tokens in NEXT_PUBLIC_* or SANITY_STUDIO_* variables.
+
+The public Sanity adapter uses the published perspective and the live API during static builds. Draft preview, draft mode, webhooks, and runtime revalidation are later work.
 
 ## Product principles
 
-1. Rental-first, package-led.
-   - Prioritize package browsing, availability requests, and clear customer decision paths.
-   - Do not turn the MVP into a full e-commerce checkout unless explicitly asked.
-   - Do not assume real-time inventory booking is available yet.
+1. Rental-first and package-led.
+   - Prioritize package browsing, availability requests, and clear decision paths.
+   - Do not introduce checkout, payments, accounts, or real-time booking unless explicitly requested.
 
-2. Keep the quote request flow central.
-   - Quote requests should capture enough information for a human to follow up quickly.
-   - Preserve fields around event date, location, event type, guest count, pickup/delivery preference, support needs, and notes.
-   - Prefer “Request availability” / “Get a fast quote” language over “Buy now” language.
+2. Keep the quote request central.
+   - Preserve event date, location, type, guest count, package context, and notes.
+   - Prefer “Request Availability,” “Check Availability,” and “Get a Fast Quote” language.
 
 3. Sell confidence and simplicity.
-   - Copy should emphasize reliable gear, right-sized packages, delivery/setup options, and optional technician support.
-   - Avoid jargon-heavy AV language on customer-facing pages unless it is explained plainly.
+   - Emphasize reliable gear, right-sized packages, delivery/setup options, and optional technician support.
+   - Explain customer-facing AV terminology plainly.
 
-4. Build the MVP, not the eventual platform.
-   - Favor simple, durable implementations over broad abstractions.
-   - Use `src/data/packages.ts` for package content until a database-backed catalog is clearly needed.
-   - Avoid introducing tenants, accounts, carts, payments, or inventory reservations unless the task explicitly asks for them.
+4. Build the current site, not a generic platform.
+   - Keep schemas and domain rules specific to JA Event Production.
+   - Do not add a generic CMS abstraction, arbitrary page builder, shared CF Assets package, inventory service, or automatic content seed without an explicit task.
 
 ## Coding conventions
 
 - Use TypeScript throughout.
-- Prefer server components by default in the App Router.
-- Use client components only when interactivity, browser APIs, or local state require them.
-- Use server actions for form submissions unless there is a clear reason for an API route.
-- Keep DB access server-only.
-- Keep validation logic centralized in `src/lib/validation.ts` where practical.
-- Keep shared types in `src/lib/types.ts` when they cross route/component boundaries.
-- Keep reusable UI in `src/components/`.
-- Keep package/rental content data-driven where reasonable.
-- Avoid large rewrites when a focused patch solves the task.
-- Avoid adding dependencies unless the task truly requires them.
-- Do not manually edit generated Drizzle snapshot metadata unless specifically fixing a migration problem and explaining why.
+- Prefer Server Components; use client components only for browser APIs or local interactivity.
+- Fetch content in server pages and pass the smallest serializable props to client components.
+- Keep package detail routes fully enumerated by asynchronous generateStaticParams(), with dynamicParams disabled.
+- Keep output: export and unoptimized static images unless the hosting architecture intentionally changes.
+- Keep provider-native values inside their adapter.
+- Validate all untrusted Sanity responses before returning domain records.
+- Keep reusable presentation UI in src/components/.
+- Preserve current URLs and quote behavior unless the task explicitly changes them.
+- Avoid broad rewrites and unnecessary dependencies.
 
-## UI and content conventions
+## Content and schema conventions
 
-- Use Tailwind utility classes consistent with the existing app.
-- Keep layouts responsive and readable on mobile.
-- Use semantic HTML where possible.
-- Forms must have accessible labels or label-equivalent markup.
-- Buttons and links should use clear action language.
-- Customer-facing copy should be direct, practical, and rental-focused.
-- Prefer examples like:
-  - “Browse Packages”
-  - “Request Availability”
-  - “Get a Fast Quote”
-  - “Delivery, setup, and technician support available”
-- Avoid generic copy like:
-  - “Full-service event solutions”
-  - “We make your event unforgettable”
-  - “Contact us for all your production needs”
+Rental packages require:
 
-## Database and migrations
+- unique slug;
+- name and approved category;
+- description, best-for text, and event-size text;
+- nonempty included-item and add-on arrays with nonblank entries;
+- optional rental period;
+- required featured state and nonnegative integer display order;
+- required image asset and meaningful alt text.
 
-- Drizzle schema lives in `src/db/schema.ts`.
-- Generated migrations live under `drizzle/`.
-- When changing the schema:
-  1. Update `src/db/schema.ts`.
-  2. Run `npm run db:generate`.
-  3. Review the generated SQL before applying.
-  4. Only run `npm run db:migrate` when a valid `DATABASE_URL` is available and migration is intended.
-- Do not create destructive migrations casually.
-- Preserve existing quote request data when possible.
-- If adding enum values, consider how existing records and admin filters will behave.
+FAQs require a nonblank question, answer, and nonnegative integer display order.
 
-## Email conventions
+Repository results are deterministically ordered by display order with a text tie-breaker. Sanity collections must not be empty in Sanity mode. Publishing and unpublishing take effect only after a new successful static build.
 
-- Email behavior is abstracted in `src/lib/email.ts`.
-- Resend may remain stubbed until the business has final domain/DNS information.
-- Do not hard-code API keys, sender domains, or recipient addresses.
-- Read email-related env vars only on the server.
-- Quote submission should not fail catastrophically just because email sending is unavailable during local development.
+When schemas or GROQ queries change:
 
-## Admin conventions
+1. Update the Studio schema and adapter/query code.
+2. Run npm run cms:generate with Studio project/dataset variables.
+3. Review sanity/schema.json and src/content/sanity/generated.ts.
+4. Run npm run cms:check.
+5. Do not deploy Studio or write dataset content unless the task explicitly authorizes it.
 
-- Keep admin-only routes under `src/app/admin/`.
-- Keep login under `src/app/admin-login/` unless intentionally changing the admin auth flow.
-- Do not expose admin secrets or auth checks to client-side code.
-- Admin quote actions should be explicit and conservative.
-- Quote status changes should preserve the simple status lifecycle unless the task asks to expand it:
-  - `new`
-  - `contacted`
-  - `quoted`
-  - `closed`
+Do not edit generated schema or TypeGen output manually.
+
+## UI and accessibility
+
+- Use Tailwind utilities consistent with the existing app.
+- Keep layouts responsive and mobile-readable.
+- Use semantic HTML and accessible labels.
+- Use meaningful image alt text from the resolved content contract.
+- Keep action language direct and rental-focused.
+- Preserve the existing visual design during content-source changes.
 
 ## Security and privacy
 
-- Never commit secrets.
-- Never print secrets in logs or UI.
-- Keep `DATABASE_URL`, Resend API keys, and admin secrets server-only.
-- Validate and normalize user-submitted form data before inserting into the database.
-- Avoid logging full quote details unless needed for debugging.
-- Treat customer contact info as private.
+- Never commit secrets or real environment values.
+- Never log or expose Sanity tokens, contact submissions, or customer details.
+- Keep CMS access and quote customer information separate; quotes do not belong in Sanity.
+- Treat SANITY_STUDIO_* values as public Studio identifiers, not secret storage.
+- Keep fixture fallback explicit in production operations.
+- Do not add external accounts, projects, datasets, CORS origins, webhooks, or deployments without authorization.
 
 ## Validation commands
 
-Use the scripts available in `package.json`.
+Normal offline validation:
 
-Before finishing most code changes, run:
+~~~powershell
+npm.cmd run check
+npm.cmd run build
+~~~
 
-```bash
-npm run lint
-npm run build
-```
+CMS artifact validation when project and dataset identifiers are configured:
 
-When schema changes are made, also run:
+~~~powershell
+npm.cmd run cms:check
+npm.cmd run studio:build
+~~~
 
-```bash
-npm run db:generate
-```
+A live Sanity-backed build additionally requires JA_CONTENT_SOURCE=sanity and readable published content. Normal tests must not require live Sanity access.
 
-Only run this when a valid database connection is configured and applying the migration is intended:
-
-```bash
-npm run db:migrate
-```
-
-There is currently no dedicated test script unless one is added later.
-
-## Codex working style
+## Working style
 
 For each task:
 
-1. Inspect the relevant files before editing.
-2. Make the smallest coherent change that satisfies the request.
-3. Preserve current behavior unless the task explicitly asks to change it.
-4. Prefer clear file-level patches over broad rewrites.
-5. Keep implementation aligned with the rental-first MVP direction.
-6. Run the relevant validation commands when possible.
-7. Summarize:
-   - files changed
-   - what changed
-   - commands run
-   - any known limitations or follow-up work
+1. Inspect the working tree and relevant files before editing.
+2. Preserve unrelated user changes.
+3. Make the smallest coherent change that satisfies the request.
+4. Keep the rental-first and static-export constraints intact.
+5. Run proportionate validation.
+6. Report files changed, behavior, commands run, unavailable live checks, and known limitations.
 
-When blocked:
-
-- State the exact missing information or failing command.
-- Do not invent environment variables, secrets, database URLs, or domain settings.
-- Provide a safe stub or clear TODO only when that is better than blocking the whole task.
-
-## Good next-task areas
-
-The highest-value improvements for this MVP are likely:
-
-- Package detail page polish and clearer package CTAs.
-- Passing selected package context into the quote form.
-- Admin quote workflow improvements.
-- Email notification wiring once domain details are available.
-- Rental catalog foundation after package flow is solid.
-- Manual availability/request flow before real-time inventory booking.
-- Better trust signals: service area, real event photos, testimonials, brands carried, FAQ clarity.
-
-Do not jump to full checkout, payment processing, client accounts, or real-time inventory reservations unless explicitly requested.
+When blocked, state the exact missing information or failing command. Do not invent project IDs, dataset names, tokens, CORS origins, domains, or account settings.
 
 ## Definition of done
 
 A task is done when:
 
-- The requested behavior is implemented.
-- The change is scoped and understandable.
-- TypeScript and lint/build checks pass, or failures are clearly reported.
-- User-facing copy still supports the rental-first positioning.
-- No secrets or server-only logic have leaked into client code.
-- Any schema changes include generated Drizzle migration files.
+- requested behavior is implemented;
+- fixture-mode type checking, linting, tests, and static build pass, or failures are reported;
+- CMS responses cannot leak provider-native fields into presentation code;
+- package routes and quote package selection use the repository;
+- no secret or server-only token appears in browser output;
+- schema changes include reviewed extraction and TypeGen artifacts;
+- user-facing copy and design remain rental-first and quote-first.

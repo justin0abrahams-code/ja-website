@@ -1,9 +1,14 @@
 import { Suspense } from "react";
 import { QuoteRequestForm } from "@/components/QuoteRequestForm";
+import { getRentalPackages } from "@/content/repository";
 import { siteConfig } from "@/data/site";
 
-export default function QuotePage() {
+export default async function QuotePage() {
   const formEndpoint = process.env.NEXT_PUBLIC_QUOTE_FORM_ENDPOINT ?? "";
+  const packageOptions = (await getRentalPackages()).map(({ slug, name }) => ({
+    slug,
+    name,
+  }));
 
   return (
     <section className="mx-auto max-w-4xl px-6 py-16">
@@ -51,6 +56,7 @@ export default function QuotePage() {
           <QuoteRequestForm
             contactEmail={siteConfig.contactEmail}
             formEndpoint={formEndpoint}
+            packages={packageOptions}
           />
         </Suspense>
       </div>

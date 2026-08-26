@@ -1,7 +1,8 @@
 import { PackageCard } from "@/components/PackageCard";
-import { packages } from "@/data/packages";
+import { getRentalPackages } from "@/content/repository";
 
-export default function PackagesPage() {
+export default async function PackagesPage() {
+  const packages = await getRentalPackages();
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="max-w-2xl">

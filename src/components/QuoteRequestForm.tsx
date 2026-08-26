@@ -2,11 +2,16 @@
 
 import { FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
-import { packages } from "@/data/packages";
+
+interface QuotePackageOption {
+  slug: string;
+  name: string;
+}
 
 interface QuoteRequestFormProps {
   contactEmail: string;
   formEndpoint: string;
+  packages: QuotePackageOption[];
 }
 
 const eventTypes = [
@@ -25,6 +30,7 @@ function getField(formData: FormData, name: string) {
 export function QuoteRequestForm({
   contactEmail,
   formEndpoint,
+  packages,
 }: QuoteRequestFormProps) {
   const searchParams = useSearchParams();
   const selectedPackage =
