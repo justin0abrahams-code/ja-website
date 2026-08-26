@@ -1,23 +1,33 @@
 import { defineCliConfig } from "sanity/cli";
 
 function requireStudioEnvironment(
+  value: string | undefined,
   name: "SANITY_STUDIO_PROJECT_ID" | "SANITY_STUDIO_DATASET",
 ) {
-  const value = process.env[name]?.trim();
+  const normalizedValue = value?.trim();
 
-  if (!value) {
+  if (!normalizedValue) {
     throw new Error(
       `${name} is required for Sanity schema and TypeGen commands.`,
     );
   }
 
-  return value;
+  return normalizedValue;
 }
+
+const projectId = requireStudioEnvironment(
+  process.env.SANITY_STUDIO_PROJECT_ID,
+  "SANITY_STUDIO_PROJECT_ID",
+);
+const dataset = requireStudioEnvironment(
+  process.env.SANITY_STUDIO_DATASET,
+  "SANITY_STUDIO_DATASET",
+);
 
 export default defineCliConfig({
   api: {
-    projectId: requireStudioEnvironment("SANITY_STUDIO_PROJECT_ID"),
-    dataset: requireStudioEnvironment("SANITY_STUDIO_DATASET"),
+    projectId,
+    dataset,
   },
   typegen: {
     path: "./src/content/sanity/queries.ts",

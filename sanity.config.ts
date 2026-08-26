@@ -4,24 +4,34 @@ import { WebsitePreviewTool } from "./sanity/preview/WebsitePreviewTool";
 import { schemaTypes } from "./sanity/schemaTypes";
 
 function requireStudioEnvironment(
+  value: string | undefined,
   name: "SANITY_STUDIO_PROJECT_ID" | "SANITY_STUDIO_DATASET",
 ) {
-  const value = process.env[name]?.trim();
+  const normalizedValue = value?.trim();
 
-  if (!value) {
+  if (!normalizedValue) {
     throw new Error(
       `${name} is required to start or build JA Event Production Studio.`,
     );
   }
 
-  return value;
+  return normalizedValue;
 }
+
+const projectId = requireStudioEnvironment(
+  process.env.SANITY_STUDIO_PROJECT_ID,
+  "SANITY_STUDIO_PROJECT_ID",
+);
+const dataset = requireStudioEnvironment(
+  process.env.SANITY_STUDIO_DATASET,
+  "SANITY_STUDIO_DATASET",
+);
 
 export default defineConfig({
   name: "ja-event-production",
   title: "JA Event Production",
-  projectId: requireStudioEnvironment("SANITY_STUDIO_PROJECT_ID"),
-  dataset: requireStudioEnvironment("SANITY_STUDIO_DATASET"),
+  projectId,
+  dataset,
   plugins: [structureTool()],
   tools: (previousTools) => [
     ...previousTools,
