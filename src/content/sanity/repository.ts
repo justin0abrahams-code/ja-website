@@ -6,9 +6,11 @@ import {
   mapSanityFaqs,
   mapSanityRentalPackages,
 } from "@/content/sanity/mapper";
+import { mapSanitySiteContent } from "@/content/sanity/siteMapper";
 import {
   faqsQuery,
   rentalPackagesQuery,
+  siteContentQuery,
 } from "@/content/sanity/queries";
 
 export interface SanityContentClient {
@@ -23,6 +25,7 @@ export function createSanityContentRepository(
     | ReturnType<ContentRepository["getRentalPackages"]>
     | undefined;
   let faqsPromise: ReturnType<ContentRepository["getFaqs"]> | undefined;
+  let siteContentPromise: ReturnType<ContentRepository["getSiteContent"]> | undefined;
 
   function getRentalPackages() {
     rentalPackagesPromise ??= (async () => {
@@ -62,6 +65,19 @@ export function createSanityContentRepository(
     return faqsPromise;
   }
 
+  function getSiteContent() {
+    siteContentPromise ??= (async () => {
+      let response: unknown;
+      try {
+        response = await client.fetch(siteContentQuery);
+      } catch (cause) {
+        throw new ContentFetchError("Unable to fetch published site content from Sanity.", { cause });
+      }
+      return mapSanitySiteContent(response, client.resolveImageUrl);
+    })();
+    return siteContentPromise;
+  }
+
   return {
     getRentalPackages,
 
@@ -71,6 +87,7 @@ export function createSanityContentRepository(
     },
 
     getFaqs,
+    getSiteContent,
   };
 }
 

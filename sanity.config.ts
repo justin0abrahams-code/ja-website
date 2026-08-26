@@ -2,6 +2,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { WebsitePreviewTool } from "./sanity/preview/WebsitePreviewTool";
 import { schemaTypes } from "./sanity/schemaTypes";
+import { SINGLETON_TYPES, structure } from "./sanity/structure";
 
 function requireStudioEnvironment(
   value: string | undefined,
@@ -32,7 +33,7 @@ export default defineConfig({
   title: "JA Event Production",
   projectId,
   dataset,
-  plugins: [structureTool()],
+  plugins: [structureTool({ structure })],
   tools: (previousTools) => [
     ...previousTools,
     {
@@ -43,5 +44,11 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
+  },
+  document: {
+    newDocumentOptions: (options) => options.filter((option) => !SINGLETON_TYPES.includes(option.templateId as (typeof SINGLETON_TYPES)[number])),
+    actions: (actions, context) => SINGLETON_TYPES.includes(context.schemaType as (typeof SINGLETON_TYPES)[number])
+      ? actions.filter((action) => !["delete", "duplicate"].includes(action.action ?? ""))
+      : actions,
   },
 });

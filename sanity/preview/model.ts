@@ -2,6 +2,7 @@ import {
   comparePackageMerchandising,
   selectHomepagePackages,
 } from "../../src/content/merchandising";
+import { normalizePreviewSite, type PreviewSiteData } from "./siteModel";
 
 export type PreviewPerspective = "drafts" | "published";
 export type PreviewDocumentStatus = "published" | "changed" | "new";
@@ -39,6 +40,7 @@ export interface PreviewFaq {
 export interface PreviewContent {
   packages: PreviewPackage[];
   faqs: PreviewFaq[];
+  site: PreviewSiteData;
 }
 
 export interface PreviewStatusResult {
@@ -205,6 +207,7 @@ export function normalizePreviewContent(
           left.displayOrder - right.displayOrder ||
           left.question.localeCompare(right.question, "en"),
       ),
+    site: normalizePreviewSite(result, statusResult),
   };
 }
 

@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getRentalPackage, getRentalPackages } from "@/content/repository";
+import { metadataFromSeo } from "@/content/metadata";
+import { getRentalPackage, getRentalPackages, getSiteContent } from "@/content/repository";
 
 interface PackageDetailPageProps {
   params: Promise<{
@@ -18,12 +20,19 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
+export async function generateMetadata({ params }: PackageDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const [pkg, site] = await Promise.all([getRentalPackage(slug), getSiteContent()]);
+  if (!pkg) return {};
+  return metadataFromSeo({ title: `${pkg.name} | ${site.settings.shortName}`, description: pkg.description, socialImage: pkg.image });
+}
+
 export default async function PackageDetailPage({
   params,
 }: PackageDetailPageProps) {
   const { slug } = await params;
 
-  const pkg = await getRentalPackage(slug);
+  const [pkg, site] = await Promise.all([getRentalPackage(slug), getSiteContent()]);
 
   if (!pkg) {
     notFound();
@@ -36,7 +45,7 @@ export default async function PackageDetailPage({
           href="/packages"
           className="text-sm font-semibold text-zinc-600 hover:text-zinc-900"
         >
-          Back to Packages
+          {site.packages.labels.backToPackages}
         </Link>
       </div>
 
@@ -72,14 +81,14 @@ export default async function PackageDetailPage({
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="rounded-lg bg-[#f5f0e8] p-5">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-[#c8860d]">
-                Best For
+                {site.packages.labels.bestFor.replace(/:$/, "")}
               </h2>
               <p className="mt-3 text-zinc-800">{pkg.bestFor}</p>
             </div>
 
             <div className="rounded-lg bg-[#f5f0e8] p-5">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-[#c8860d]">
-                Event Size
+                {site.packages.labels.eventSize.replace(/:$/, "")}
               </h2>
               <p className="mt-3 text-zinc-800">{pkg.eventSize}</p>
             </div>
@@ -88,7 +97,7 @@ export default async function PackageDetailPage({
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             <div>
               <h2 className="text-xl font-semibold text-zinc-950">
-                What&apos;s Included
+                {site.packages.labels.detailIncludes}
               </h2>
               <ul className="mt-4 list-disc space-y-3 pl-5 text-zinc-700">
                 {pkg.includes.map((item) => (
@@ -99,7 +108,7 @@ export default async function PackageDetailPage({
 
             <div>
               <h2 className="text-xl font-semibold text-zinc-950">
-                Optional Add-Ons
+                {site.packages.labels.detailAddons}
               </h2>
               <ul className="mt-4 list-disc space-y-3 pl-5 text-zinc-700">
                 {pkg.addons.map((item) => (
@@ -114,14 +123,14 @@ export default async function PackageDetailPage({
               href={`/quote?package=${pkg.slug}`}
               className="rounded-md bg-[#1a1f2e] px-5 py-3 text-sm font-semibold text-white hover:bg-[#252b3b]"
             >
-              Check Availability
+              {site.packages.labels.detailAvailability}
             </Link>
 
             <Link
               href="/packages"
               className="rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50"
             >
-              Browse More Packages
+              {site.packages.labels.detailBrowse}
             </Link>
           </div>
         </div>

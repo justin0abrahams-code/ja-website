@@ -89,6 +89,254 @@ export type Slug = {
   source?: string;
 };
 
+export type FaqPage = {
+  _id: string;
+  _type: "faqPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heading: string;
+  description: string;
+  cta: {
+    heading: string;
+    description: string;
+  };
+  advanced: {
+    eyebrow: string;
+    ctaEyebrow: string;
+    ctaPrimaryLabel: string;
+    ctaSecondaryLabel: string;
+    seo?: SeoOverride;
+  };
+};
+
+export type QuotePage = {
+  _id: string;
+  _type: "quotePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heading: string;
+  description: string;
+  nextSteps: Array<
+    {
+      _key: string;
+    } & ContentStep
+  >;
+  advanced: {
+    eyebrow: string;
+    nextStepsHeading: string;
+    emailPrompt: string;
+    seo?: SeoOverride;
+  };
+};
+
+export type PackagesPage = {
+  _id: string;
+  _type: "packagesPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heading: string;
+  description: string;
+  advanced: {
+    eyebrow: string;
+    bestFor: string;
+    eventSize: string;
+    rentalPeriod: string;
+    includes: string;
+    cardAvailability: string;
+    cardDetails: string;
+    backToPackages: string;
+    detailIncludes: string;
+    detailAddons: string;
+    detailAvailability: string;
+    detailBrowse: string;
+    seo?: SeoOverride;
+  };
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  introduction: {
+    heading: string;
+    description: string;
+    secondaryDescription: string;
+  };
+  heroImage: MarketingImage;
+  supportedEvents: {
+    heading: string;
+    items: Array<
+      {
+        _key: string;
+      } & ContentStep
+    >;
+  };
+  supportOptions: {
+    heading: string;
+    items: Array<
+      {
+        _key: string;
+      } & ContentStep
+    >;
+  };
+  serviceArea: {
+    heading: string;
+    description: string;
+  };
+  cta: {
+    heading: string;
+    description: string;
+  };
+  advanced: {
+    introductionEyebrow: string;
+    supportedEventsEyebrow: string;
+    supportOptionsEyebrow: string;
+    serviceAreaEyebrow: string;
+    ctaEyebrow: string;
+    ctaPrimaryLabel: string;
+    ctaSecondaryLabel: string;
+    seo?: SeoOverride;
+  };
+};
+
+export type MarketingImage = {
+  _type: "marketingImage";
+  asset?: SanityImageAssetReference;
+  media?: unknown;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt: string;
+};
+
+export type HomePage = {
+  _id: string;
+  _type: "homePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  hero: {
+    heading: string;
+    tagline: string;
+    description: string;
+    image: MarketingImage;
+    imageDescription: string;
+  };
+  proofPoints: Array<
+    {
+      _key: string;
+    } & ContentStep
+  >;
+  featuredPackages: {
+    heading: string;
+    description: string;
+  };
+  upgrades: {
+    heading: string;
+    description: string;
+    items: Array<
+      {
+        _key: string;
+      } & ContentListItem
+    >;
+  };
+  process: {
+    heading: string;
+    description: string;
+    image: MarketingImage;
+    steps: Array<
+      {
+        _key: string;
+      } & ContentStep
+    >;
+  };
+  eventTypes: {
+    heading: string;
+    items: Array<
+      {
+        _key: string;
+      } & ContentListItem
+    >;
+  };
+  cta: {
+    heading: string;
+    description: string;
+    image: MarketingImage;
+  };
+  advanced: {
+    heroEyebrow: string;
+    heroPrimaryLabel: string;
+    heroSecondaryLabel: string;
+    heroImageEyebrow: string;
+    featuredEyebrow: string;
+    featuredLinkLabel: string;
+    upgradesEyebrow: string;
+    upgradesLinkLabel: string;
+    processEyebrow: string;
+    processStepLabel: string;
+    eventTypesEyebrow: string;
+    ctaEyebrow: string;
+    ctaPrimaryLabel: string;
+    ctaSecondaryLabel: string;
+    seo?: SeoOverride;
+  };
+};
+
+export type SeoOverride = {
+  _type: "seoOverride";
+  title?: string;
+  description?: string;
+  socialImage: MarketingImage;
+};
+
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  businessName: string;
+  shortName: string;
+  tagline: string;
+  serviceArea: string;
+  description: string;
+  experience: string;
+  defaultSocialImage: MarketingImage;
+  advanced: {
+    brandDescriptor: string;
+    packagesLabel: string;
+    quoteLabel: string;
+    aboutLabel: string;
+    faqLabel: string;
+    ctaLabel: string;
+    navigationHeading: string;
+    serviceAreaHeading: string;
+    footerPackagesLabel: string;
+    footerQuoteLabel: string;
+    footerAboutLabel: string;
+    footerFaqLabel: string;
+    footerServiceAreaDescription: string;
+    footerCtaLabel: string;
+    defaultSeoTitle: string;
+    defaultSeoDescription: string;
+  };
+};
+
+export type ContentStep = {
+  _type: "contentStep";
+  text: string;
+};
+
+export type ContentListItem = {
+  _type: "contentListItem";
+  title: string;
+  description: string;
+};
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -193,6 +441,16 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | FaqPage
+  | QuotePage
+  | PackagesPage
+  | AboutPage
+  | MarketingImage
+  | HomePage
+  | SeoOverride
+  | SiteSettings
+  | ContentStep
+  | ContentListItem
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -243,11 +501,233 @@ export type FaqsQueryResult = Array<{
   displayOrder: number;
 }>;
 
+// Source: src/content/sanity/queries.ts
+// Variable: siteContentQuery
+// Query: {  "settings": *[_id == "siteSettings" && _type == "siteSettings"][0],  "home": *[_id == "homePage" && _type == "homePage"][0],  "about": *[_id == "aboutPage" && _type == "aboutPage"][0],  "packages": *[_id == "packagesPage" && _type == "packagesPage"][0],  "quote": *[_id == "quotePage" && _type == "quotePage"][0],  "faq": *[_id == "faqPage" && _type == "faqPage"][0]}
+export type SiteContentQueryResult = {
+  settings: {
+    _id: "siteSettings";
+    _type: "siteSettings";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    businessName: string;
+    shortName: string;
+    tagline: string;
+    serviceArea: string;
+    description: string;
+    experience: string;
+    defaultSocialImage: MarketingImage;
+    advanced: {
+      brandDescriptor: string;
+      packagesLabel: string;
+      quoteLabel: string;
+      aboutLabel: string;
+      faqLabel: string;
+      ctaLabel: string;
+      navigationHeading: string;
+      serviceAreaHeading: string;
+      footerPackagesLabel: string;
+      footerQuoteLabel: string;
+      footerAboutLabel: string;
+      footerFaqLabel: string;
+      footerServiceAreaDescription: string;
+      footerCtaLabel: string;
+      defaultSeoTitle: string;
+      defaultSeoDescription: string;
+    };
+  } | null;
+  home: {
+    _id: "homePage";
+    _type: "homePage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    hero: {
+      heading: string;
+      tagline: string;
+      description: string;
+      image: MarketingImage;
+      imageDescription: string;
+    };
+    proofPoints: Array<
+      {
+        _key: string;
+      } & ContentStep
+    >;
+    featuredPackages: {
+      heading: string;
+      description: string;
+    };
+    upgrades: {
+      heading: string;
+      description: string;
+      items: Array<
+        {
+          _key: string;
+        } & ContentListItem
+      >;
+    };
+    process: {
+      heading: string;
+      description: string;
+      image: MarketingImage;
+      steps: Array<
+        {
+          _key: string;
+        } & ContentStep
+      >;
+    };
+    eventTypes: {
+      heading: string;
+      items: Array<
+        {
+          _key: string;
+        } & ContentListItem
+      >;
+    };
+    cta: {
+      heading: string;
+      description: string;
+      image: MarketingImage;
+    };
+    advanced: {
+      heroEyebrow: string;
+      heroPrimaryLabel: string;
+      heroSecondaryLabel: string;
+      heroImageEyebrow: string;
+      featuredEyebrow: string;
+      featuredLinkLabel: string;
+      upgradesEyebrow: string;
+      upgradesLinkLabel: string;
+      processEyebrow: string;
+      processStepLabel: string;
+      eventTypesEyebrow: string;
+      ctaEyebrow: string;
+      ctaPrimaryLabel: string;
+      ctaSecondaryLabel: string;
+      seo?: SeoOverride;
+    };
+  } | null;
+  about: {
+    _id: "aboutPage";
+    _type: "aboutPage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    introduction: {
+      heading: string;
+      description: string;
+      secondaryDescription: string;
+    };
+    heroImage: MarketingImage;
+    supportedEvents: {
+      heading: string;
+      items: Array<
+        {
+          _key: string;
+        } & ContentStep
+      >;
+    };
+    supportOptions: {
+      heading: string;
+      items: Array<
+        {
+          _key: string;
+        } & ContentStep
+      >;
+    };
+    serviceArea: {
+      heading: string;
+      description: string;
+    };
+    cta: {
+      heading: string;
+      description: string;
+    };
+    advanced: {
+      introductionEyebrow: string;
+      supportedEventsEyebrow: string;
+      supportOptionsEyebrow: string;
+      serviceAreaEyebrow: string;
+      ctaEyebrow: string;
+      ctaPrimaryLabel: string;
+      ctaSecondaryLabel: string;
+      seo?: SeoOverride;
+    };
+  } | null;
+  packages: {
+    _id: "packagesPage";
+    _type: "packagesPage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    heading: string;
+    description: string;
+    advanced: {
+      eyebrow: string;
+      bestFor: string;
+      eventSize: string;
+      rentalPeriod: string;
+      includes: string;
+      cardAvailability: string;
+      cardDetails: string;
+      backToPackages: string;
+      detailIncludes: string;
+      detailAddons: string;
+      detailAvailability: string;
+      detailBrowse: string;
+      seo?: SeoOverride;
+    };
+  } | null;
+  quote: {
+    _id: "quotePage";
+    _type: "quotePage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    heading: string;
+    description: string;
+    nextSteps: Array<
+      {
+        _key: string;
+      } & ContentStep
+    >;
+    advanced: {
+      eyebrow: string;
+      nextStepsHeading: string;
+      emailPrompt: string;
+      seo?: SeoOverride;
+    };
+  } | null;
+  faq: {
+    _id: "faqPage";
+    _type: "faqPage";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    heading: string;
+    description: string;
+    cta: {
+      heading: string;
+      description: string;
+    };
+    advanced: {
+      eyebrow: string;
+      ctaEyebrow: string;
+      ctaPrimaryLabel: string;
+      ctaSecondaryLabel: string;
+      seo?: SeoOverride;
+    };
+  } | null;
+};
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[\n  _type == "rentalPackage"\n] | order(displayOrder asc, name asc) {\n  _id,\n  "slug": slug.current,\n  name,\n  category,\n  description,\n  bestFor,\n  eventSize,\n  includes,\n  addons,\n  rentalPeriod,\n  featured,\n  displayOrder,\n  image {\n    alt,\n    asset,\n    crop,\n    hotspot\n  }\n}': RentalPackagesQueryResult;
     '*[\n  _type == "faq"\n] | order(displayOrder asc, question asc) {\n  _id,\n  question,\n  answer,\n  displayOrder\n}': FaqsQueryResult;
+    '{\n  "settings": *[_id == "siteSettings" && _type == "siteSettings"][0],\n  "home": *[_id == "homePage" && _type == "homePage"][0],\n  "about": *[_id == "aboutPage" && _type == "aboutPage"][0],\n  "packages": *[_id == "packagesPage" && _type == "packagesPage"][0],\n  "quote": *[_id == "quotePage" && _type == "quotePage"][0],\n  "faq": *[_id == "faqPage" && _type == "faqPage"][0]\n}': SiteContentQueryResult;
   }
 }

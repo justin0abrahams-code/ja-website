@@ -3,6 +3,7 @@ import {
   fixtureFaqs,
   fixtureRentalPackages,
 } from "@/content/fixtures/data";
+import { fixtureSiteContent } from "@/content/fixtures/siteContent";
 
 function comparePackages(
   left: (typeof fixtureRentalPackages)[number],
@@ -39,6 +40,10 @@ export function createFixtureContentRepository(): ContentRepository {
 
     async getFaqs() {
       return faqs;
+    },
+
+    async getSiteContent() {
+      return fixtureSiteContent;
     },
   };
 }

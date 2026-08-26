@@ -39,7 +39,7 @@ SANITY_READ_TOKEN=
 
 Leave **SANITY_READ_TOKEN** blank for a public dataset. Store a read-only token in the deployment environment for a private dataset. Production should set **SANITY_STUDIO_DATASET** to the approved production dataset; do not commit environment-specific values.
 
-An unset or empty **JA_CONTENT_SOURCE** uses fixtures. An explicit **sanity** selection is strict: missing configuration, network errors, empty required collections, malformed documents, duplicate slugs, or invalid image alt text fail the build. Fixtures are never substituted after Sanity mode is selected.
+An unset or empty **JA_CONTENT_SOURCE** uses fixtures. An explicit **sanity** selection is strict: missing configuration, missing or unpublished page singletons, network errors, empty required collections, malformed documents, duplicate slugs, or invalid image alt text fail the build. Fixtures are never substituted after Sanity mode is selected.
 
 ## Local workflows
 
@@ -78,7 +78,9 @@ The Studio bundle is written to the ignored .sanity/studio-dist/ directory. No d
 
 ## Initial content migration
 
-Migrate into the development dataset first. Create and publish six rentalPackage documents and eight faq documents using src/content/fixtures/data.ts as the source of truth.
+Migrate into the development dataset first. Create and publish six rentalPackage documents and eight faq documents using src/content/fixtures/data.ts as the source of truth. Then open each named page at the top of Studio Structure: Site Settings, Home Page, About Page, Packages Page, Quote Page, and FAQ Page.
+
+Each fixed page document is created with the current fixture wording the first time it is opened. Review the wording, choose every required image, add meaningful alt text, and publish the page. The image fields are intentionally not prefilled. Site Settings requires the default social image; Home requires hero, process, and final call-to-action images; About requires its hero image. Page-level social images are optional and inherit the Site Settings default.
 
 For packages:
 
@@ -91,7 +93,7 @@ For packages:
    - Live Band Support Upgrade: public/brand/stage-audio.jpg
    - Custom Event Quote: public/brand/outdoor-screen.jpg
 3. Publish every document and run a Sanity-backed static build.
-4. Compare all package, quote-selection, homepage-featured, and FAQ output with fixture mode.
+4. Compare all marketing pages, shared navigation/footer content, package output, quote selection, homepage merchandising, metadata, and FAQ output with fixture mode.
 5. Repeat the approved content manually in production. There is intentionally no seed or automatic import command.
 
 ## Publishing behavior
@@ -104,7 +106,8 @@ Publishing does not update the current website immediately. A new static build i
 - updated content replaces the previous static content;
 - an unpublished package loses its detail route and quote option;
 - unpublished FAQs disappear;
-- a dataset with no published packages or no published FAQs fails instead of exporting an incomplete site.
+- a dataset with no published packages or no published FAQs fails instead of exporting an incomplete site;
+- any missing, unpublished, malformed, or image-incomplete page singleton fails the build.
 
 Production should set **JA_CONTENT_SOURCE=sanity** explicitly. Switching a deployment back to **fixture** is a deliberate operational decision, not an automatic recovery path.
 
@@ -123,10 +126,14 @@ the static public-site architecture:
 - **Draft** shows saved drafts over their published versions and identifies
   new documents or unpublished changes.
 - **Published** shows the content available to the next static build.
-- Home, Packages, Package Detail, Quote, and FAQ views use the same package
-  ordering and homepage merchandising rules as the website.
+- Home, About, Packages, Package Detail, Quote, and FAQ views use the same page
+  content, package ordering, and homepage merchandising rules as the website.
 - Desktop and Mobile controls show the expected responsive layouts.
 - **Edit package** and **Edit FAQ** return to the relevant Studio document.
+- **Edit this page** opens the fixed singleton for the current page; shared
+  header/footer content comes from Site Settings.
+- Every page includes a compact resolved SEO summary, including Site Settings
+  inheritance when a page override is empty.
 - The quote form is representative only and cannot submit.
 
 The Studio preview is intentionally tolerant of incomplete drafts and displays

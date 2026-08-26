@@ -31,3 +31,12 @@ export const faqsQuery = defineQuery(`*[
   answer,
   displayOrder
 }`);
+
+export const siteContentQuery = defineQuery(`{
+  "settings": *[_id == "siteSettings" && _type == "siteSettings"][0],
+  "home": *[_id == "homePage" && _type == "homePage"][0],
+  "about": *[_id == "aboutPage" && _type == "aboutPage"][0],
+  "packages": *[_id == "packagesPage" && _type == "packagesPage"][0],
+  "quote": *[_id == "quotePage" && _type == "quotePage"][0],
+  "faq": *[_id == "faqPage" && _type == "faqPage"][0]
+}`);

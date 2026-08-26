@@ -1,7 +1,7 @@
 # JA Event Production Sanity Studio crash course
 
 This five-session course teaches Sanity through the actual JA Event Production
-package and FAQ workflow. It is written for the business owner who will edit
+package, FAQ, and fixed marketing-page workflow. It is written for the business owner who will edit
 content and also wants enough technical understanding to diagnose how that
 content reaches the static website.
 
@@ -130,7 +130,8 @@ npm.cmd run studio:dev
 
 Open `http://localhost:3333`. Sign in with the Sanity account that has access to
 the project. The page title should be **JA Event Production**, and the document
-navigation should contain **Rental Package** and **FAQ**.
+   navigation should show the six named website pages first, followed by
+   **Rental Packages** and **FAQs**.
 
 If the browser reports a CORS error, stop and add the exact Studio origin
 `http://localhost:3333` in Sanity Manage under the project's API/CORS settings,
@@ -175,7 +176,8 @@ contains both drafts and published documents.
 
 With Studio running, locate these areas:
 
-1. **Document navigation:** lists Rental Packages and FAQs.
+1. **Document navigation:** lists Site Settings and five marketing pages first,
+   followed by Rental Packages and FAQs.
 2. **Document list:** shows preview cards built from package name/category/image
    or FAQ question/answer.
 3. **Editor pane:** displays the schema-defined fields and validation markers.
@@ -495,7 +497,7 @@ is slower but safer for this first migration.
 
 ## 3.4 The everyday owner workflow
 
-Use this sequence for normal package and FAQ changes:
+Use this sequence for normal package, FAQ, and marketing-page changes:
 
 1. **Identify the customer question.** Decide whether the change clarifies a
    package, creates a new package, or answers an FAQ.
@@ -507,6 +509,26 @@ Use this sequence for normal package and FAQ changes:
    replace the last successful site.
 6. **Verify like a customer.** Check the package page, package list, homepage,
    quote preselection, and relevant FAQ.
+
+### Editing the fixed marketing pages
+
+The named page entries are singletons: there is one Site Settings document and
+one document for each customer-facing marketing page. Open the named entry from
+Structure rather than using a generic Create menu. Duplicate and delete actions
+are intentionally unavailable for these documents.
+
+The first time each singleton is opened, Studio prefills the current fixture
+wording. Images remain empty on purpose. Review the copy, select the required
+images, enter meaningful alt text, and publish only when validation is clear.
+Site Settings supplies shared business, header/footer, and default SEO content.
+Page-specific search and social fields inherit from those defaults when left
+empty. Advanced labels and SEO remain available in the collapsed Advanced
+section; destinations, page layout, and quote-form behavior remain code-owned.
+
+Use **Website Preview** to compare Draft and Published views for Home, About,
+Packages, Package Detail, Quote, and FAQ. Each view offers **Edit this page** and
+an SEO summary. The preview can show incomplete drafts; a Sanity-backed public
+build rejects incomplete published singletons.
 
 ### Example: adding a technician option
 
@@ -821,7 +843,8 @@ correct, you can explain publish  build  verify, and production remains empty.
 | Reorder/feature packages or replace an image | Yes | No | No |
 | Add or edit an FAQ | Yes | No | No |
 | Add a package category or schema field | No | Yes | No |
-| Change page layout, CTA, or card behavior | No | Yes | No |
+| Change marketing wording, CTA label, or SEO | Yes | No | No |
+| Change page layout, CTA destination, or card behavior | No | Yes | No |
 | Change hosted quote-form behavior | No | Yes/config | Form provider |
 | Store customer/event details | No | No | Approved lead workflow |
 | Reserve equipment or calculate availability | No | No | Future inventory system |

@@ -1,15 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { siteConfig } from "@/data/site";
+import type { SiteSettingsContent } from "@/content/domain";
 
-const navItems = [
-  { href: "/packages", label: "Packages" },
-  { href: "/quote", label: "Quote" },
-  { href: "/about", label: "About" },
-  { href: "/faq", label: "FAQ" },
-];
-
-export function Header() {
+export function Header({ settings }: { settings: SiteSettingsContent }) {
+  const navItems = [
+    { href: "/packages", label: settings.header.packagesLabel },
+    { href: "/quote", label: settings.header.quoteLabel },
+    { href: "/about", label: settings.header.aboutLabel },
+    { href: "/faq", label: settings.header.faqLabel },
+  ];
   return (
     <header className="border-b border-[#f2a81d]/25 bg-[#1a1f2e] text-[#f5f0e8]">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-6 py-4">
@@ -25,10 +24,10 @@ export function Header() {
           </span>
           <span className="leading-tight">
             <span className="block font-serif text-lg font-semibold">
-              {siteConfig.shortName}
+              {settings.shortName}
             </span>
             <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[#f2a81d]">
-              Event Production
+              {settings.header.brandDescriptor}
             </span>
           </span>
         </Link>
@@ -49,7 +48,7 @@ export function Header() {
           href="/quote"
           className="rounded-md bg-[#f2a81d] px-4 py-2 text-sm font-semibold text-[#1a1f2e] transition hover:bg-[#f7c35a]"
         >
-          Get a Fast Quote
+          {settings.header.ctaLabel}
         </Link>
       </div>
     </header>

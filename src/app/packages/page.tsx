@@ -1,28 +1,24 @@
+import type { Metadata } from "next";
 import { PackageCard } from "@/components/PackageCard";
-import { getRentalPackages } from "@/content/repository";
+import { metadataFromSeo } from "@/content/metadata";
+import { getRentalPackages, getSiteContent } from "@/content/repository";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return metadataFromSeo((await getSiteContent()).packages.seo);
+}
 
 export default async function PackagesPage() {
-  const packages = await getRentalPackages();
+  const [packages, site] = await Promise.all([getRentalPackages(), getSiteContent()]);
+  const content = site.packages;
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="max-w-2xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">
-          Rental Packages
-        </p>
-        <h1 className="mt-3 font-serif text-4xl font-bold tracking-tight text-zinc-950">
-          Sound and lighting packages built around real event needs
-        </h1>
-        <p className="mt-4 text-zinc-600">
-          Choose the setup that best matches your event size and use, then ask
-          about delivery, setup, uplighting, subs, band support, or a technical
-          operator.
-        </p>
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c8860d]">{content.introduction.eyebrow}</p>
+        <h1 className="mt-3 font-serif text-4xl font-bold tracking-tight text-zinc-950">{content.introduction.heading}</h1>
+        <p className="mt-4 text-zinc-600">{content.introduction.description}</p>
       </div>
-
       <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {packages.map((pkg) => (
-          <PackageCard key={pkg.slug} pkg={pkg} />
-        ))}
+        {packages.map((pkg) => <PackageCard key={pkg.slug} labels={content.labels} pkg={pkg} />)}
       </div>
     </section>
   );
