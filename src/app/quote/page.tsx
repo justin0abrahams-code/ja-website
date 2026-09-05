@@ -4,6 +4,7 @@ import { QuoteRequestForm } from "@/components/QuoteRequestForm";
 import { metadataFromSeo } from "@/content/metadata";
 import { getRentalPackages, getSiteContent } from "@/content/repository";
 import { runtimeSiteConfig } from "@/data/site";
+import { PACKAGES_ENABLED } from "@/features";
 
 export async function generateMetadata(): Promise<Metadata> {
   return metadataFromSeo((await getSiteContent()).quote.seo);
@@ -11,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function QuotePage() {
   const formEndpoint = process.env.NEXT_PUBLIC_QUOTE_FORM_ENDPOINT ?? "";
-  const [packages, site] = await Promise.all([getRentalPackages(), getSiteContent()]);
+  const [packages, site] = await Promise.all([PACKAGES_ENABLED ? getRentalPackages() : [], getSiteContent()]);
   const content = site.quote;
   const packageOptions = packages.map(({ slug, name }) => ({ slug, name }));
   return (

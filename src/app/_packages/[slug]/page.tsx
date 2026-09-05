@@ -34,7 +34,7 @@ export default async function PackageDetailPage({
 
   const [pkg, site] = await Promise.all([getRentalPackage(slug), getSiteContent()]);
 
-  if (!pkg) {
+  if (!pkg || !site.packages) {
     notFound();
   }
 

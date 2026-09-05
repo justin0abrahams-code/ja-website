@@ -411,6 +411,194 @@
     }
   },
   {
+    "name": "galleryPage",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "galleryPage"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "heading": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "description": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "photos": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "asset": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageAsset.reference"
+                },
+                "optional": false
+              },
+              "media": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "unknown"
+                },
+                "optional": true
+              },
+              "hotspot": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageHotspot"
+                },
+                "optional": true
+              },
+              "crop": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageCrop"
+                },
+                "optional": true
+              },
+              "alt": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": false
+              },
+              "caption": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "galleryPhoto"
+                }
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "optional": false
+      },
+      "advanced": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "eyebrow": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": false
+            },
+            "seo": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "seoOverride"
+              },
+              "optional": true
+            }
+          }
+        },
+        "optional": false
+      }
+    }
+  },
+  {
+    "name": "seoOverride",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "seoOverride"
+          }
+        },
+        "title": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "description": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "socialImage": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "marketingImage"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
     "name": "faqPage",
     "type": "document",
     "attributes": {
@@ -513,7 +701,7 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "seo": {
               "type": "objectAttribute",
@@ -1039,7 +1227,7 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "seo": {
               "type": "objectAttribute",
@@ -1221,18 +1409,18 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "description": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "upgrades": {
         "type": "objectAttribute",
@@ -1418,7 +1606,7 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "heroSecondaryLabel": {
               "type": "objectAttribute",
@@ -1439,14 +1627,14 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "featuredLinkLabel": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "upgradesEyebrow": {
               "type": "objectAttribute",
@@ -1460,7 +1648,7 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "processEyebrow": {
               "type": "objectAttribute",
@@ -1502,7 +1690,7 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "seo": {
               "type": "objectAttribute",
@@ -1515,44 +1703,6 @@
           }
         },
         "optional": false
-      }
-    }
-  },
-  {
-    "name": "seoOverride",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "seoOverride"
-          }
-        },
-        "title": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "description": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "socialImage": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "marketingImage"
-          },
-          "optional": false
-        }
       }
     }
   },
@@ -1658,7 +1808,7 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "quoteLabel": {
               "type": "objectAttribute",
@@ -1675,6 +1825,13 @@
               "optional": false
             },
             "faqLabel": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": false
+            },
+            "galleryLabel": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
@@ -1707,7 +1864,7 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "footerQuoteLabel": {
               "type": "objectAttribute",
@@ -1724,6 +1881,13 @@
               "optional": false
             },
             "footerFaqLabel": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": false
+            },
+            "footerGalleryLabel": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"

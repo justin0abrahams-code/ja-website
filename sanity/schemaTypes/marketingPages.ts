@@ -1,10 +1,17 @@
+import { PACKAGES_ENABLED } from "../../src/features";
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { fixtureSiteContent as f } from "../../src/content/fixtures/siteContent";
 
 const advancedOptions = { collapsible: true, collapsed: true } as const;
 const requiredString = (name: string, title: string) => defineField({ name, title, type: "string", validation: (rule) => rule.required().min(1) });
 const requiredText = (name: string, title: string, rows = 3) => defineField({ name, title, type: "text", rows, validation: (rule) => rule.required().min(1) });
-const label = (name: string) => requiredString(name, name.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase()));
+const packageLabels = new Set(["packagesLabel", "footerPackagesLabel", "heroPrimaryLabel", "featuredEyebrow", "featuredLinkLabel", "upgradesLinkLabel", "ctaSecondaryLabel"]);
+const label = (name: string) => defineField({
+  ...requiredString(name, name.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase())),
+  hidden: !PACKAGES_ENABLED && packageLabels.has(name),
+  readOnly: !PACKAGES_ENABLED && packageLabels.has(name),
+  validation: (rule) => !PACKAGES_ENABLED && packageLabels.has(name) ? [] : rule.required().min(1),
+});
 const listItems = (items: readonly { key: string; title: string; description: string }[]) => items.map((item) => ({ _key: item.key, _type: "contentListItem", title: item.title, description: item.description }));
 const steps = (items: readonly { key: string; text: string }[]) => items.map((item) => ({ _key: item.key, _type: "contentStep", text: item.text }));
 const seo = (value: { title: string; description: string }) => ({ _type: "seoOverride", title: value.title, description: value.description });
@@ -19,7 +26,7 @@ export const siteSettingsType = defineType({
       _type: "object", ...f.settings.header, navigationHeading: f.settings.footer.navigationHeading,
       serviceAreaHeading: f.settings.footer.serviceAreaHeading, footerPackagesLabel: f.settings.footer.packagesLabel,
       footerQuoteLabel: f.settings.footer.quoteLabel, footerAboutLabel: f.settings.footer.aboutLabel,
-      footerFaqLabel: f.settings.footer.faqLabel, footerServiceAreaDescription: f.settings.footer.serviceAreaDescription,
+      footerFaqLabel: f.settings.footer.faqLabel, footerGalleryLabel: f.settings.footer.galleryLabel, footerServiceAreaDescription: f.settings.footer.serviceAreaDescription,
       footerCtaLabel: f.settings.footer.ctaLabel, defaultSeoTitle: f.settings.seo.title,
       defaultSeoDescription: f.settings.seo.description,
     },
@@ -30,9 +37,9 @@ export const siteSettingsType = defineType({
     requiredText("description", "Business description", 4), requiredString("experience", "Experience statement"),
     defineField({ name: "defaultSocialImage", title: "Default social image", type: "marketingImage", validation: (rule) => rule.required() }),
     defineField({ name: "advanced", title: "Advanced labels and SEO", type: "object", options: advancedOptions, validation: (rule) => rule.required(), fields: [
-      label("brandDescriptor"), label("packagesLabel"), label("quoteLabel"), label("aboutLabel"), label("faqLabel"), label("ctaLabel"),
+      label("brandDescriptor"), label("packagesLabel"), label("quoteLabel"), label("aboutLabel"), label("faqLabel"), label("galleryLabel"), label("ctaLabel"),
       label("navigationHeading"), label("serviceAreaHeading"), label("footerPackagesLabel"), label("footerQuoteLabel"),
-      label("footerAboutLabel"), label("footerFaqLabel"), requiredText("footerServiceAreaDescription", "Footer service area description"),
+      label("footerAboutLabel"), label("footerFaqLabel"), label("footerGalleryLabel"), requiredText("footerServiceAreaDescription", "Footer service area description"),
       label("footerCtaLabel"),
       defineField({ name: "defaultSeoTitle", title: "Default page title", type: "string", validation: (rule) => rule.required().min(1).max(70) }),
       defineField({ name: "defaultSeoDescription", title: "Default SEO description", type: "text", rows: 3, validation: (rule) => rule.required().min(1).max(180) }),
@@ -60,7 +67,7 @@ export const homePageType = defineType({
       requiredText("imageDescription", "Image caption", 2),
     ] }),
     defineField({ name: "proofPoints", title: "Proof points", type: "array", of: [defineArrayMember({ type: "contentStep" })], validation: (rule) => rule.required().length(3) }),
-    defineField({ name: "featuredPackages", title: "Featured package introduction", type: "object", validation: (rule) => rule.required(), fields: [requiredString("heading", "Heading"), requiredText("description", "Description")] }),
+    defineField({ name: "featuredPackages", title: "Featured package introduction", type: "object", hidden: !PACKAGES_ENABLED, readOnly: !PACKAGES_ENABLED, validation: (rule) => PACKAGES_ENABLED ? rule.required() : [], fields: [defineField({ ...requiredString("heading", "Heading"), validation: (rule) => PACKAGES_ENABLED ? rule.required().min(1) : [] }), defineField({ ...requiredText("description", "Description"), validation: (rule) => PACKAGES_ENABLED ? rule.required().min(1) : [] })] }),
     defineField({ name: "upgrades", title: "Popular upgrades", type: "object", validation: (rule) => rule.required(), fields: [requiredString("heading", "Heading"), requiredText("description", "Description"), defineField({ name: "items", title: "Upgrades", type: "array", of: [defineArrayMember({ type: "contentListItem" })], validation: (rule) => rule.required().min(1).max(6) })] }),
     defineField({ name: "process", title: "How it works", type: "object", validation: (rule) => rule.required(), fields: [requiredString("heading", "Heading"), requiredText("description", "Description"), defineField({ name: "image", title: "Image", type: "marketingImage", validation: (rule) => rule.required() }), defineField({ name: "steps", title: "Steps", type: "array", of: [defineArrayMember({ type: "contentStep" })], validation: (rule) => rule.required().min(2).max(5) })] }),
     defineField({ name: "eventTypes", title: "Event types", type: "object", validation: (rule) => rule.required(), fields: [requiredString("heading", "Heading"), defineField({ name: "items", title: "Event types", type: "array", of: [defineArrayMember({ type: "contentListItem" })], validation: (rule) => rule.required().min(1).max(6) })] }),
@@ -98,6 +105,7 @@ export const aboutPageType = defineType({
 
 export const packagesPageType = defineType({
   name: "packagesPage", title: "Packages Page", type: "document",
+  readOnly: !PACKAGES_ENABLED,
   initialValue: { heading: f.packages.introduction.heading, description: f.packages.introduction.description, advanced: { _type: "object", eyebrow: f.packages.introduction.eyebrow, ...f.packages.labels, seo: seo(f.packages.seo) } },
   fields: [
     requiredString("heading", "Heading"), requiredText("description", "Introduction", 4),

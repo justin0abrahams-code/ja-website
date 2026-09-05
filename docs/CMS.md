@@ -2,6 +2,100 @@
 
 JA Event Production can build from checked-in fixtures or published Sanity content. The public site remains a static export in both modes: Sanity is contacted only while the Next.js build runs, and no CMS client or token is shipped for browser-side content fetching.
 
+## Updating Sanity after removing lighting
+
+Local fixtures and Studio defaults now lead with sound and event production.
+Existing Sanity documents do not inherit changes to defaults. Apply these edits
+in the existing Studio's **development** dataset, preserving your business name
+and other custom wording.
+
+| Studio document | Changes to make |
+| --- | --- |
+| Site Settings | Under Advanced labels and SEO, remove lighting from the default title and description. Replace any social image containing lighting text or room uplighting with audio-console.jpg and accurate alternative text. |
+| Home Page | Remove Room Uplighting from Upgrades. Remove uplighting from process steps and the Weddings and Parties description. Remove lighting from the hero heading/caption and SEO overrides. Replace a room-uplighting hero image with audio-console.jpg. |
+| About Page | Remove lighting from the introduction and uplighting from support options. Check SEO and social-image overrides. |
+| Gallery Page | Use heading “Sound and event setups” and description “Take a closer look at audio equipment and event production setups.” Remove the Room uplighting photo and lighting from the SEO description. Capacity remains ten photos. |
+| Quote Page | Change the SEO description to offer a sound rental quote. |
+| FAQs | Remove uplighting from the equipment/add-ons answer. Check FAQ Page SEO overrides too. |
+
+1. Open [the existing Studio](https://ja-event-production-dev.sanity.studio/), edit
+   the documents above, and review them in Website Preview. Check captions,
+   alternative text, and SEO overrides for any custom lighting references.
+2. Click **Publish** on each edited document. Package documents remain paused;
+   retain their preserved content and the old image assets.
+3. In PowerShell at the repository root, build from published CMS content:
+
+   ~~~powershell
+   $env:JA_CONTENT_SOURCE = 'sanity'
+   npm.cmd run build
+   ~~~
+
+4. Review the export and deploy it through the existing website hosting workflow.
+   Publishing in Sanity alone does not update this static website.
+5. To refresh Studio's initial values and preview defaults as well, run:
+
+   ~~~powershell
+   npm.cmd run studio:build
+   node node_modules/sanity/bin/sanity deploy .sanity/studio-dist --no-build --url ja-event-production-dev
+   ~~~
+
+   This updates Studio, not its stored content. No schema migration or TypeGen
+   change is required for this copy-only update.
+
+Afterward, use `$env:JA_CONTENT_SOURCE = 'fixture'` for offline checks. Do not
+rerun the gallery setup script to update existing content: it preserves a gallery
+that already exists.
+
+## Photo gallery
+
+The `/gallery/` page holds up to **10 photos**. In Studio, open **Gallery Page**
+to upload or select images, add required alternative text and optional captions,
+and drag photos into the desired order. The Website Preview includes Gallery in
+both draft and published views. An empty gallery shows “Photos are coming soon.”
+
+The initial gallery uses three existing audio/event photos, leaving room for seven
+more. Gallery navigation labels live in Site Settings. Publish content, then run
+a fresh Sanity-backed static build and deploy the website for changes to appear.
+
+For an existing dataset, `node scripts/add-gallery-cms.mjs` previews the scoped
+setup; `--apply` creates the missing gallery and adds missing navigation labels.
+It uses existing image assets, keeps current documents and drafts, and stores a
+backup under ignored `.sanity/gallery/`. Use `--empty` for a gallery without
+initial photos. Schema and TypeGen artifacts must also be regenerated.
+
+## Temporary package pause
+
+`PACKAGES_ENABLED` in `src/features.ts` is currently false. The package index and
+detail code live in `src/app/_packages/`; Next.js excludes that private folder
+from routing, so old package URLs return 404 after the static site is rebuilt
+and deployed. The homepage, navigation, quote form, and Studio Website Preview
+omit packages. Quote submissions ignore old `?package=` parameters and omit the
+package field in both hosted-form submissions and prepared email messages.
+
+Studio retains the schemas and all existing package documents, but hides the
+package menus, creation options, and dormant marketing fields. Package documents
+are read-only and have no document actions. Hidden fields are not required for
+publishing active pages. The published site mapper ignores dormant package data;
+active page and FAQ validation remains strict, with no fixture fallback.
+
+`npm run build` clears Next.js's generated fetch-response cache before building
+so published CMS edits cannot be masked by content from an earlier static build.
+Compilation caches and request deduplication within a build remain available.
+
+The scoped migration is `node scripts/pause-packages-cms.mjs` (dry run). It uses
+the configured project/dataset and existing Sanity CLI login. Review its exact
+edits, then run it with `--apply` to patch only matching marketing/FAQ phrases.
+It preserves revisions with conditional patches and writes a before-snapshot
+under ignored `.sanity/package-pause/`. It also creates the FAQ Page singleton
+from the updated wording if no FAQ Page document exists. It never deletes or
+unpublishes packages or publishes unrelated drafts.
+
+To restore packages when requested: restore the `src/app/packages/` folder name,
+set the flag to true, review package wording and package-led customer paths,
+regenerate schema/TypeGen artifacts, then validate and deploy Studio and the
+static site. Merely publishing a package while paused cannot restore a route.
+The initial package-migration guidance below is retained for that future work.
+
 New to Sanity or content management? Work through the
 [five-session JA Event Production crash course](SANITY-CRASH-COURSE.md) before
 using this shorter operations guide.
@@ -102,12 +196,12 @@ The public adapter always queries the published perspective. Draft edits do not 
 
 Publishing does not update the current website immediately. A new static build is required. On the next successful build:
 
-- newly published packages receive generated routes and quote options;
+- packages remain inactive while the package pause is enabled;
 - updated content replaces the previous static content;
-- an unpublished package loses its detail route and quote option;
 - unpublished FAQs disappear;
-- a dataset with no published packages or no published FAQs fails instead of exporting an incomplete site;
-- any missing, unpublished, malformed, or image-incomplete page singleton fails the build.
+- a dataset with no published FAQs fails instead of exporting an incomplete site;
+- any missing, unpublished, malformed, or image-incomplete active page singleton fails the build;
+- once packages are restored, published packages again receive routes and quote options, unpublishing removes those routes/options, and an empty package collection fails the build.
 
 Production should set **JA_CONTENT_SOURCE=sanity** explicitly. Switching a deployment back to **fixture** is a deliberate operational decision, not an automatic recovery path.
 
@@ -126,10 +220,10 @@ the static public-site architecture:
 - **Draft** shows saved drafts over their published versions and identifies
   new documents or unpublished changes.
 - **Published** shows the content available to the next static build.
-- Home, About, Packages, Package Detail, Quote, and FAQ views use the same page
-  content, package ordering, and homepage merchandising rules as the website.
+- Home, About, Quote, and FAQ views show the active website content. Package
+  views and merchandising remain preserved in code for restoration.
 - Desktop and Mobile controls show the expected responsive layouts.
-- **Edit package** and **Edit FAQ** return to the relevant Studio document.
+- **Edit FAQ** returns to the relevant Studio document.
 - **Edit this page** opens the fixed singleton for the current page; shared
   header/footer content comes from Site Settings.
 - Every page includes a compact resolved SEO summary, including Site Settings

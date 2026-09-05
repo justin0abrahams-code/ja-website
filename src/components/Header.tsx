@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PACKAGES_ENABLED } from "@/features";
 import type { SiteSettingsContent } from "@/content/domain";
 
 export function Header({ settings }: { settings: SiteSettingsContent }) {
   const navItems = [
-    { href: "/packages", label: settings.header.packagesLabel },
+    ...(PACKAGES_ENABLED ? [{ href: "/packages", label: settings.header.packagesLabel }] : []),
     { href: "/quote", label: settings.header.quoteLabel },
+    { href: "/gallery", label: settings.header.galleryLabel },
     { href: "/about", label: settings.header.aboutLabel },
     { href: "/faq", label: settings.header.faqLabel },
   ];
@@ -32,7 +34,7 @@ export function Header({ settings }: { settings: SiteSettingsContent }) {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav aria-label="Main navigation" className="hidden items-center gap-6 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -51,6 +53,9 @@ export function Header({ settings }: { settings: SiteSettingsContent }) {
           {settings.header.ctaLabel}
         </Link>
       </div>
+      <nav aria-label="Mobile navigation" className="flex justify-center gap-6 border-t border-[#f2a81d]/15 px-6 py-3 md:hidden">
+        {navItems.map((item) => <Link key={item.href} href={item.href} className="text-sm text-[#f5f0e8]/75 transition hover:text-[#f2a81d]">{item.label}</Link>)}
+      </nav>
     </header>
   );
 }

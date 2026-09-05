@@ -2,6 +2,7 @@
 
 import { FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
+import { PACKAGES_ENABLED } from "@/features";
 
 interface QuotePackageOption {
   slug: string;
@@ -11,7 +12,7 @@ interface QuotePackageOption {
 interface QuoteRequestFormProps {
   contactEmail: string;
   formEndpoint: string;
-  packages: QuotePackageOption[];
+  packages?: QuotePackageOption[];
 }
 
 const eventTypes = [
@@ -30,11 +31,11 @@ function getField(formData: FormData, name: string) {
 export function QuoteRequestForm({
   contactEmail,
   formEndpoint,
-  packages,
+  packages = [],
 }: QuoteRequestFormProps) {
   const searchParams = useSearchParams();
   const selectedPackage =
-    packages.find((item) => item.slug === searchParams.get("package"))?.name ??
+    (PACKAGES_ENABLED ? packages.find((item) => item.slug === searchParams.get("package"))?.name : "") ??
     "";
   const canSubmit = Boolean(formEndpoint || contactEmail);
 
@@ -63,7 +64,7 @@ export function QuoteRequestForm({
       `Event type: ${eventType}`,
       `Venue or city: ${getField(formData, "location") || "Not provided"}`,
       `Guest count: ${getField(formData, "guestCount") || "Not provided"}`,
-      `Package: ${getField(formData, "package") || "Not sure yet"}`,
+      ...(PACKAGES_ENABLED ? [`Package: ${getField(formData, "package") || "Not sure yet"}`] : []),
       "",
       "Event details:",
       getField(formData, "message") || "No additional details provided.",
@@ -209,7 +210,7 @@ export function QuoteRequestForm({
         />
       </div>
 
-      <div>
+      {PACKAGES_ENABLED ? <div>
         <label
           htmlFor="package"
           className="mb-2 block text-sm font-medium text-zinc-800"
@@ -229,7 +230,7 @@ export function QuoteRequestForm({
             </option>
           ))}
         </select>
-      </div>
+      </div> : null}
 
       <div>
         <label

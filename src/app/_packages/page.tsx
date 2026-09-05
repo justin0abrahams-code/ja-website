@@ -1,15 +1,19 @@
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PackageCard } from "@/components/PackageCard";
 import { metadataFromSeo } from "@/content/metadata";
 import { getRentalPackages, getSiteContent } from "@/content/repository";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return metadataFromSeo((await getSiteContent()).packages.seo);
+  const content = (await getSiteContent()).packages;
+  if (!content) notFound();
+  return metadataFromSeo(content.seo);
 }
 
 export default async function PackagesPage() {
   const [packages, site] = await Promise.all([getRentalPackages(), getSiteContent()]);
   const content = site.packages;
+  if (!content) notFound();
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="max-w-2xl">

@@ -1,3 +1,4 @@
+import { PACKAGES_ENABLED } from "@/features";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { metadataFromSeo } from "@/content/metadata";
@@ -27,7 +28,7 @@ export default async function FaqPage() {
           <p className="mt-4 text-[#f5f0e8]/75">{content.cta.description}</p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href="/quote" className="rounded-md bg-[#f2a81d] px-5 py-3 text-sm font-semibold text-[#1a1f2e] transition hover:bg-[#f7c35a]">{content.cta.primaryLabel}</Link>
-            <Link href="/packages" className="rounded-md border border-[#f2a81d]/60 px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#f2a81d]/10">{content.cta.secondaryLabel}</Link>
+            {PACKAGES_ENABLED ? <Link href="/packages" className="rounded-md border border-[#f2a81d]/60 px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#f2a81d]/10">{content.cta.secondaryLabel}</Link> : null}
           </div>
         </div>
       </div>

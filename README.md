@@ -1,6 +1,10 @@
 # JA Event Production
 
-A static, quote-first website for Justin Abrahams Event Production. The site helps North Georgia customers compare sound and lighting rental packages, understand available support options, and request availability without displaying fixed pricing.
+A static, quote-first website for Justin Abrahams Event Production. The site helps North Georgia customers understand sound rentals, explore available support options, and request availability without displaying fixed pricing.
+
+Packages are temporarily paused. Their code and CMS documents are retained, but
+the public routes, links, quote selector, and Studio editing are disabled. See
+[the CMS guide](docs/CMS.md#temporary-package-pause) for restoration instructions.
 
 ## Start here
 

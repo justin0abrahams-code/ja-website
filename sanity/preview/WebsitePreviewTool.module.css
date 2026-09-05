@@ -962,3 +962,8 @@
     padding: 20px;
   }
 }
+.galleryGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.galleryPhoto { margin: 0; overflow: hidden; border: 1px solid #e4e4e7; border-radius: 8px; background: white; }
+.galleryImage { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.galleryPhoto figcaption { padding: 16px 20px; color: #52525b; font-size: 14px; }
+.site[data-viewport="mobile"] .galleryGrid { grid-template-columns: 1fr; }

@@ -1,9 +1,12 @@
+import { PACKAGES_ENABLED } from "@/features";
 import type { SanityImageSource } from "@sanity/image-url";
 import { z } from "zod";
 import type { ContentImage, SeoContent, SiteContent } from "@/content/domain";
 import { ContentValidationError } from "@/content/errors";
 
 const text = z.string().trim().min(1);
+// Ignore dormant content entirely; it cannot block unrelated pages.
+const packageText = PACKAGES_ENABLED ? text : z.unknown().transform(() => undefined).optional();
 const image = z.object({
   alt: text,
   asset: z.object({ _ref: text }),
@@ -20,9 +23,9 @@ const settingsSchema = z.object({
   businessName: text, shortName: text, tagline: text, serviceArea: text, description: text, experience: text,
   defaultSocialImage: image,
   advanced: z.object({
-    brandDescriptor: text, packagesLabel: text, quoteLabel: text, aboutLabel: text, faqLabel: text, ctaLabel: text,
-    navigationHeading: text, serviceAreaHeading: text, footerPackagesLabel: text, footerQuoteLabel: text,
-    footerAboutLabel: text, footerFaqLabel: text, footerServiceAreaDescription: text, footerCtaLabel: text,
+    brandDescriptor: text, packagesLabel: packageText, quoteLabel: text, aboutLabel: text, faqLabel: text, galleryLabel: text, ctaLabel: text,
+    navigationHeading: text, serviceAreaHeading: text, footerPackagesLabel: packageText, footerQuoteLabel: text,
+    footerAboutLabel: text, footerFaqLabel: text, footerGalleryLabel: text, footerServiceAreaDescription: text, footerCtaLabel: text,
     defaultSeoTitle: text, defaultSeoDescription: text,
   }),
 });
@@ -31,16 +34,16 @@ const homeSchema = z.object({
   ...singleton("homePage", "homePage"),
   hero: z.object({ heading: text, tagline: text, description: text, image, imageDescription: text }),
   proofPoints: z.array(keyedText).length(3),
-  featuredPackages: z.object({ heading: text, description: text }),
+  featuredPackages: PACKAGES_ENABLED ? z.object({ heading: text, description: text }) : z.unknown().transform(() => undefined).optional(),
   upgrades: z.object({ heading: text, description: text, items: z.array(listItem).min(1).max(6) }),
   process: z.object({ heading: text, description: text, image, steps: z.array(keyedText).min(2).max(5) }),
   eventTypes: z.object({ heading: text, items: z.array(listItem).min(1).max(6) }),
   cta: z.object({ heading: text, description: text, image }),
   advanced: z.object({
-    heroEyebrow: text, heroPrimaryLabel: text, heroSecondaryLabel: text, heroImageEyebrow: text,
-    featuredEyebrow: text, featuredLinkLabel: text, upgradesEyebrow: text, upgradesLinkLabel: text,
+    heroEyebrow: text, heroPrimaryLabel: packageText, heroSecondaryLabel: text, heroImageEyebrow: text,
+    featuredEyebrow: packageText, featuredLinkLabel: packageText, upgradesEyebrow: text, upgradesLinkLabel: packageText,
     processEyebrow: text, processStepLabel: text, eventTypesEyebrow: text,
-    ctaEyebrow: text, ctaPrimaryLabel: text, ctaSecondaryLabel: text, seo: seoOverride,
+    ctaEyebrow: text, ctaPrimaryLabel: text, ctaSecondaryLabel: packageText, seo: seoOverride,
   }),
 });
 
@@ -52,7 +55,7 @@ const aboutSchema = z.object({
   supportOptions: z.object({ heading: text, items: z.array(keyedText).min(1).max(8) }),
   serviceArea: z.object({ heading: text, description: text }),
   cta: z.object({ heading: text, description: text }),
-  advanced: z.object({ introductionEyebrow: text, supportedEventsEyebrow: text, supportOptionsEyebrow: text, serviceAreaEyebrow: text, ctaEyebrow: text, ctaPrimaryLabel: text, ctaSecondaryLabel: text, seo: seoOverride }),
+  advanced: z.object({ introductionEyebrow: text, supportedEventsEyebrow: text, supportOptionsEyebrow: text, serviceAreaEyebrow: text, ctaEyebrow: text, ctaPrimaryLabel: text, ctaSecondaryLabel: packageText, seo: seoOverride }),
 });
 
 const packagesSchema = z.object({
@@ -67,10 +70,17 @@ const quoteSchema = z.object({
 
 const faqPageSchema = z.object({
   ...singleton("faqPage", "faqPage"), heading: text, description: text, cta: z.object({ heading: text, description: text }),
-  advanced: z.object({ eyebrow: text, ctaEyebrow: text, ctaPrimaryLabel: text, ctaSecondaryLabel: text, seo: seoOverride }),
+  advanced: z.object({ eyebrow: text, ctaEyebrow: text, ctaPrimaryLabel: text, ctaSecondaryLabel: packageText, seo: seoOverride }),
 });
 
-const responseSchema = z.object({ settings: settingsSchema, home: homeSchema, about: aboutSchema, packages: packagesSchema, quote: quoteSchema, faq: faqPageSchema });
+const gallerySchema = z.object({
+  ...singleton("galleryPage", "galleryPage"), heading: text, description: text,
+  photos: z.array(image.extend({ _key: text, caption: z.string().trim().max(160).nullish() })).max(10)
+    .refine((photos) => new Set(photos.map((photo) => photo._key)).size === photos.length, "Photo keys must be unique"),
+  advanced: z.object({ eyebrow: text, seo: seoOverride }),
+});
+
+const responseSchema = z.object({ settings: settingsSchema, home: homeSchema, about: aboutSchema, packages: PACKAGES_ENABLED ? packagesSchema : z.unknown().transform(() => undefined).optional(), quote: quoteSchema, faq: faqPageSchema, gallery: gallerySchema });
 const absoluteUrl = z.string().url();
 export type SiteImageUrlResolver = (source: SanityImageSource) => string;
 
@@ -100,7 +110,7 @@ export function mapSanitySiteContent(input: unknown, resolveImageUrl: SiteImageU
   const parsed = responseSchema.safeParse(input);
   if (!parsed.success) throw validationError(parsed.error);
 
-  const { settings, home, about, packages, quote, faq } = parsed.data;
+  const { settings, home, about, packages, quote, faq, gallery } = parsed.data;
   const defaultSeo: SeoContent = {
     title: settings.advanced.defaultSeoTitle,
     description: settings.advanced.defaultSeoDescription,
@@ -114,15 +124,20 @@ export function mapSanitySiteContent(input: unknown, resolveImageUrl: SiteImageU
       header: {
         brandDescriptor: settings.advanced.brandDescriptor, packagesLabel: settings.advanced.packagesLabel,
         quoteLabel: settings.advanced.quoteLabel, aboutLabel: settings.advanced.aboutLabel,
-        faqLabel: settings.advanced.faqLabel, ctaLabel: settings.advanced.ctaLabel,
+        faqLabel: settings.advanced.faqLabel, galleryLabel: settings.advanced.galleryLabel, ctaLabel: settings.advanced.ctaLabel,
       },
       footer: {
         navigationHeading: settings.advanced.navigationHeading, serviceAreaHeading: settings.advanced.serviceAreaHeading,
         packagesLabel: settings.advanced.footerPackagesLabel, quoteLabel: settings.advanced.footerQuoteLabel,
-        aboutLabel: settings.advanced.footerAboutLabel, faqLabel: settings.advanced.footerFaqLabel,
+        aboutLabel: settings.advanced.footerAboutLabel, faqLabel: settings.advanced.footerFaqLabel, galleryLabel: settings.advanced.footerGalleryLabel,
         serviceAreaDescription: settings.advanced.footerServiceAreaDescription, ctaLabel: settings.advanced.footerCtaLabel,
       },
       seo: defaultSeo,
+    },
+    gallery: {
+      introduction: { eyebrow: gallery.advanced.eyebrow, heading: gallery.heading, description: gallery.description },
+      photos: gallery.photos.map((photo) => ({ key: photo._key, ...resolveImage(photo, "Gallery photo", resolveImageUrl), caption: photo.caption || undefined })),
+      seo: resolveSeo(gallery.advanced.seo, defaultSeo, "Gallery Page", resolveImageUrl),
     },
     home: {
       hero: {
@@ -133,7 +148,7 @@ export function mapSanitySiteContent(input: unknown, resolveImageUrl: SiteImageU
         imageEyebrow: home.advanced.heroImageEyebrow, imageDescription: home.hero.imageDescription,
       },
       proofPoints: home.proofPoints.map(({ _key, text }) => ({ key: _key, text })),
-      featuredPackages: { eyebrow: home.advanced.featuredEyebrow, heading: home.featuredPackages.heading, description: home.featuredPackages.description, linkLabel: home.advanced.featuredLinkLabel },
+      featuredPackages: home.featuredPackages ? { eyebrow: home.advanced.featuredEyebrow!, heading: home.featuredPackages.heading, description: home.featuredPackages.description, linkLabel: home.advanced.featuredLinkLabel! } : undefined,
       upgrades: { eyebrow: home.advanced.upgradesEyebrow, heading: home.upgrades.heading, description: home.upgrades.description, linkLabel: home.advanced.upgradesLinkLabel, items: home.upgrades.items.map(({ _key, title, description }) => ({ key: _key, title, description })) },
       process: { eyebrow: home.advanced.processEyebrow, heading: home.process.heading, description: home.process.description, image: resolveImage(home.process.image, "Home Page process image", resolveImageUrl), stepLabel: home.advanced.processStepLabel, steps: home.process.steps.map(({ _key, text }) => ({ key: _key, text })) },
       eventTypes: { eyebrow: home.advanced.eventTypesEyebrow, heading: home.eventTypes.heading, items: home.eventTypes.items.map(({ _key, title, description }) => ({ key: _key, title, description })) },
@@ -149,7 +164,7 @@ export function mapSanitySiteContent(input: unknown, resolveImageUrl: SiteImageU
       cta: { eyebrow: about.advanced.ctaEyebrow, heading: about.cta.heading, description: about.cta.description, primaryLabel: about.advanced.ctaPrimaryLabel, secondaryLabel: about.advanced.ctaSecondaryLabel },
       seo: resolveSeo(about.advanced.seo, defaultSeo, "About Page", resolveImageUrl),
     },
-    packages: {
+    packages: packages ? {
       introduction: { eyebrow: packages.advanced.eyebrow, heading: packages.heading, description: packages.description },
       labels: {
         bestFor: packages.advanced.bestFor, eventSize: packages.advanced.eventSize,
@@ -160,7 +175,7 @@ export function mapSanitySiteContent(input: unknown, resolveImageUrl: SiteImageU
         detailBrowse: packages.advanced.detailBrowse,
       },
       seo: resolveSeo(packages.advanced.seo, defaultSeo, "Packages Page", resolveImageUrl),
-    },
+    } : undefined,
     quote: {
       introduction: { eyebrow: quote.advanced.eyebrow, heading: quote.heading, description: quote.description },
       nextStepsHeading: quote.advanced.nextStepsHeading,

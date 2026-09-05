@@ -1,5 +1,15 @@
 # AGENTS.md
 
+## Current package pause
+
+Packages are temporarily disabled by `src/features.ts`. The original routes are
+preserved in `src/app/_packages/`, outside Next.js routing. Do not reintroduce
+package navigation, merchandising, quote selection, or CMS editing until requested.
+The active site leads with equipment rentals and availability requests. Package
+documents, schemas, fixtures, components, and repository methods remain for later;
+active builds do not require package documents or dormant package fields. The
+package-led guidance below applies when the catalogue is restored.
+
 ## Project overview
 
 JA Event Production is a rental-first audio, lighting, and AV event-rental website.
@@ -35,6 +45,7 @@ Important application areas:
 - src/app/quote/page.tsx — server page that resolves package choices
 - src/components/QuoteRequestForm.tsx — client-side hosted-form/email behavior
 - src/app/faq/page.tsx — repository-backed FAQ page
+- src/app/gallery/page.tsx — gallery of up to 10 CMS-managed photos
 - src/content/domain.ts — site-owned, Sanity-free content contracts
 - src/content/repository.ts — public asynchronous content repository and source selection
 - src/content/fixtures/ — checked-in package and FAQ content

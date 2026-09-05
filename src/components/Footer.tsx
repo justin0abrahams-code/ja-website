@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { PACKAGES_ENABLED } from "@/features";
 import type { SiteSettingsContent } from "@/content/domain";
 
 export function Footer({ contactEmail, settings }: { contactEmail: string; settings: SiteSettingsContent }) {
   const footerLinks = [
-    { href: "/packages", label: settings.footer.packagesLabel },
+    ...(PACKAGES_ENABLED ? [{ href: "/packages", label: settings.footer.packagesLabel }] : []),
     { href: "/quote", label: settings.footer.quoteLabel },
+    { href: "/gallery", label: settings.footer.galleryLabel },
     { href: "/about", label: settings.footer.aboutLabel },
     { href: "/faq", label: settings.footer.faqLabel },
   ];

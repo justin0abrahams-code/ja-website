@@ -1,3 +1,4 @@
+import { PACKAGES_ENABLED } from "@/features";
 import type { SanityImageSource } from "@sanity/image-url";
 import type { ContentRepository } from "@/content/repository";
 import { ContentFetchError } from "@/content/errors";
@@ -11,6 +12,7 @@ import {
   faqsQuery,
   rentalPackagesQuery,
   siteContentQuery,
+  siteContentWithPackagesQuery,
 } from "@/content/sanity/queries";
 
 export interface SanityContentClient {
@@ -69,7 +71,7 @@ export function createSanityContentRepository(
     siteContentPromise ??= (async () => {
       let response: unknown;
       try {
-        response = await client.fetch(siteContentQuery);
+        response = await client.fetch(PACKAGES_ENABLED ? siteContentWithPackagesQuery : siteContentQuery);
       } catch (cause) {
         throw new ContentFetchError("Unable to fetch published site content from Sanity.", { cause });
       }

@@ -1,3 +1,4 @@
+import { PACKAGES_ENABLED } from "./src/features";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { WebsitePreviewTool } from "./sanity/preview/WebsitePreviewTool";
@@ -46,8 +47,10 @@ export default defineConfig({
     types: schemaTypes,
   },
   document: {
-    newDocumentOptions: (options) => options.filter((option) => !SINGLETON_TYPES.includes(option.templateId as (typeof SINGLETON_TYPES)[number])),
-    actions: (actions, context) => SINGLETON_TYPES.includes(context.schemaType as (typeof SINGLETON_TYPES)[number])
+    newDocumentOptions: (options) => options.filter((option) => !SINGLETON_TYPES.includes(option.templateId as (typeof SINGLETON_TYPES)[number]) && (PACKAGES_ENABLED || option.templateId !== "rentalPackage")),
+    actions: (actions, context) => !PACKAGES_ENABLED && ["rentalPackage", "packagesPage"].includes(context.schemaType)
+      ? []
+      : SINGLETON_TYPES.includes(context.schemaType as (typeof SINGLETON_TYPES)[number])
       ? actions.filter((action) => !["delete", "duplicate"].includes(action.action ?? ""))
       : actions,
   },

@@ -1,10 +1,12 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { PACKAGES_ENABLED } from "../../src/features";
 import { PACKAGE_CATEGORIES } from "../../src/content/domain";
 
 export const rentalPackageType = defineType({
   name: "rentalPackage",
   title: "Rental Package",
   type: "document",
+  readOnly: !PACKAGES_ENABLED,
   fields: [
     defineField({
       name: "name",

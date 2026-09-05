@@ -184,7 +184,7 @@ export const fixtureFaqs = [
   {
     question: "Can I rent gear without an on-site technician?",
     answer:
-      "Yes. Some packages are rental-friendly, especially smaller announcement setups. Larger events, bands, and higher-pressure timelines may benefit from setup help or a technical equipment operator.",
+      "Yes. Some equipment is easy to set up yourself, especially smaller announcement systems. Larger events, bands, and higher-pressure timelines may benefit from setup help or a technical equipment operator.",
     displayOrder: 20,
   },
   {
@@ -194,7 +194,7 @@ export const fixtureFaqs = [
     displayOrder: 30,
   },
   {
-    question: "What if I am not sure what package I need?",
+    question: "What if I am not sure what equipment I need?",
     answer:
       "Start with a custom quote request. Share the event type, date, guest count, location, and what you are trying to accomplish, and Justin can recommend the right setup.",
     displayOrder: 40,
@@ -202,19 +202,19 @@ export const fixtureFaqs = [
   {
     question: "How far in advance should I request a quote?",
     answer:
-      "As early as possible is best, especially for weddings, live shows, and larger event dates. Early requests improve the chance of matching the right package and support availability.",
+      "As early as possible is best, especially for weddings, live shows, and larger event dates. Early requests improve the chance of matching the right equipment and support availability.",
     displayOrder: 50,
   },
   {
-    question: "Do packages include every possible upgrade?",
+    question: "Can I add equipment or event-day support?",
     answer:
-      "No. Packages are practical starting points. Subwoofers, uplighting, band gear, delivery, labor, and operators can be added based on the event.",
+      "Yes. Subwoofers, band gear, delivery, labor, and operators can be added based on the event. Justin will confirm the available options in your quote.",
     displayOrder: 60,
   },
   {
     question: "What information should I include in a quote request?",
     answer:
-      "The most helpful details are your event date, location, event type, guest count, preferred package, pickup or delivery preference, and any notes about venue access or timing.",
+      "The most helpful details are your event date, location, event type, guest count, equipment needs, pickup or delivery preference, and any notes about venue access or timing.",
     displayOrder: 70,
   },
   {
