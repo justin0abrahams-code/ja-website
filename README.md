@@ -1,6 +1,10 @@
 # JA Event Production
 
-A static, quote-first website for Justin Abrahams Event Production. The site helps North Georgia customers compare sound and lighting rental packages, understand available support options, and request availability without displaying fixed pricing.
+A static, quote-first website for Justin Abrahams Event Production. The site helps North Georgia customers understand sound rentals, explore available support options, and request availability without displaying fixed pricing.
+
+Packages are temporarily paused. Their code and CMS documents are retained, but
+the public routes, links, quote selector, and Studio editing are disabled. See
+[the CMS guide](docs/CMS.md#temporary-package-pause) for restoration instructions.
 
 ## Start here
 
@@ -14,7 +18,9 @@ Website changes should be requested through the repository's **Issues** tab. Cho
 
 ### For developers
 
-This project uses Next.js, React, TypeScript, and Tailwind CSS. It exports to static files and does not require a database or application server.
+This project uses Next.js, React, TypeScript, Tailwind CSS, and an optional
+Sanity content source. It requires Node.js 22.12 or newer, exports to static
+files, and does not require a database or application server.
 
 ```powershell
 npm.cmd install
@@ -22,6 +28,11 @@ npm.cmd run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). For a complete Windows setup and repeatable update workflow, use the [owner testing guide](docs/OWNER_TESTING.md).
+
+The default content source is the checked-in fixture set, so local development
+and automated checks do not need Sanity credentials or network access. Start
+with the [five-session Sanity crash course](docs/SANITY-CRASH-COURSE.md), then
+use the [Sanity CMS setup guide](docs/CMS.md) as the operational reference.
 
 ## Public configuration
 
@@ -48,7 +59,7 @@ Restart the development server after changing environment settings.
 Before opening a pull request or merging a change:
 
 ```powershell
-npm.cmd run lint
+npm.cmd run check
 npm.cmd run build
 ```
 

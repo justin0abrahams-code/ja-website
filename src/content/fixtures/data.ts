@@ -1,6 +1,6 @@
-import { RentalPackage } from "@/lib/types";
+import type { Faq, RentalPackage } from "@/content/domain";
 
-export const packages: RentalPackage[] = [
+export const fixtureRentalPackages = [
   {
     slug: "basic-sound-package-1",
     name: "Small Event Sound Package",
@@ -23,9 +23,13 @@ export const packages: RentalPackage[] = [
     ],
     description:
       "A compact announcement setup that is easy to transport and built for clear sound at smaller events.",
-    imageSrc: "/brand/audio-console.jpg",
+    image: {
+      src: "/brand/audio-console.jpg",
+      alt: "Digital audio console used for an event sound system",
+    },
     rentalPeriod: "Per day",
     featured: true,
+    displayOrder: 10,
   },
   {
     slug: "basic-sound-package-2",
@@ -49,9 +53,13 @@ export const packages: RentalPackage[] = [
     ],
     description:
       "A medium announcement package for events that need more speaker coverage and microphone flexibility.",
-    imageSrc: "/brand/uplighting-room.jpg",
+    image: {
+      src: "/brand/uplighting-room.jpg",
+      alt: "Event room illuminated with blue and amber uplighting",
+    },
     rentalPeriod: "Per day",
     featured: true,
+    displayOrder: 20,
   },
   {
     slug: "basic-sound-package-3",
@@ -75,9 +83,13 @@ export const packages: RentalPackage[] = [
     ],
     description:
       "A larger sound package with subs, expanded mixing, and the coverage needed for bigger rooms or crowds.",
-    imageSrc: "/brand/stage-audio.jpg",
+    image: {
+      src: "/brand/stage-audio.jpg",
+      alt: "Stage audio system set up for a live event",
+    },
     rentalPeriod: "Per day",
     featured: true,
+    displayOrder: 30,
   },
   {
     slug: "basic-uplighting-upgrade",
@@ -98,9 +110,13 @@ export const packages: RentalPackage[] = [
     ],
     description:
       "A simple room-transforming lighting add-on for a clean static color look.",
-    imageSrc: "/brand/uplighting-room.jpg",
+    image: {
+      src: "/brand/uplighting-room.jpg",
+      alt: "Event room illuminated with blue and amber uplighting",
+    },
     rentalPeriod: "Per day add-on",
     featured: true,
+    displayOrder: 40,
   },
   {
     slug: "basic-band-upgrade",
@@ -122,9 +138,13 @@ export const packages: RentalPackage[] = [
     ],
     description:
       "A live music upgrade for events that need proper stage inputs, monitors, and operator-ready infrastructure.",
-    imageSrc: "/brand/stage-audio.jpg",
+    image: {
+      src: "/brand/stage-audio.jpg",
+      alt: "Stage audio system set up for a live event",
+    },
     rentalPeriod: "Per day add-on",
     featured: true,
+    displayOrder: 50,
   },
   {
     slug: "custom-event-quote",
@@ -145,7 +165,62 @@ export const packages: RentalPackage[] = [
     ],
     description:
       "Not sure which package fits? Share the event details and Justin can recommend the right rental setup.",
-    imageSrc: "/brand/outdoor-screen.jpg",
+    image: {
+      src: "/brand/outdoor-screen.jpg",
+      alt: "Outdoor event screen and production setup",
+    },
     featured: true,
+    displayOrder: 60,
   },
-];
+] satisfies RentalPackage[];
+
+export const fixtureFaqs = [
+  {
+    question: "Do you offer delivery and setup?",
+    answer:
+      "Yes. Delivery, pickup, setup, strike, and stage hand support are available. Include your venue or city and access details so the right support can be included in your quote.",
+    displayOrder: 10,
+  },
+  {
+    question: "Can I rent gear without an on-site technician?",
+    answer:
+      "Yes. Some equipment is easy to set up yourself, especially smaller announcement systems. Larger events, bands, and higher-pressure timelines may benefit from setup help or a technical equipment operator.",
+    displayOrder: 20,
+  },
+  {
+    question: "Can a technical equipment operator stay for the event?",
+    answer:
+      "Yes. Technical equipment operators are available for events that need active mixing, equipment monitoring, or hands-on support throughout the program.",
+    displayOrder: 30,
+  },
+  {
+    question: "What if I am not sure what equipment I need?",
+    answer:
+      "Start with a custom quote request. Share the event type, date, guest count, location, and what you are trying to accomplish, and Justin can recommend the right setup.",
+    displayOrder: 40,
+  },
+  {
+    question: "How far in advance should I request a quote?",
+    answer:
+      "As early as possible is best, especially for weddings, live shows, and larger event dates. Early requests improve the chance of matching the right equipment and support availability.",
+    displayOrder: 50,
+  },
+  {
+    question: "Can I add equipment or event-day support?",
+    answer:
+      "Yes. Subwoofers, band gear, delivery, labor, and operators can be added based on the event. Justin will confirm the available options in your quote.",
+    displayOrder: 60,
+  },
+  {
+    question: "What information should I include in a quote request?",
+    answer:
+      "The most helpful details are your event date, location, event type, guest count, equipment needs, pickup or delivery preference, and any notes about venue access or timing.",
+    displayOrder: 70,
+  },
+  {
+    question: "Where do you serve?",
+    answer:
+      "JA Event Production serves North Georgia. Include your venue or city in the quote request so travel and availability can be confirmed.",
+    displayOrder: 80,
+  },
+] satisfies Faq[];
